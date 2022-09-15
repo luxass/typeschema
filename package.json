@@ -1,0 +1,61 @@
+{
+  "name": "typeschema",
+  "version": "0.0.1",
+  "description": "Generate JSON Schema, Zod Schemas from TypeScript types.",
+  "type": "module",
+  "bin": {
+    "typeschema": "./dist/cli.js"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./config": {
+      "import": "./dist/config.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "format": "prettier --write --cache .",
+    "lint": "eslint --cache {src,tests}/**/*.ts",
+    "test": "vitest"
+  },
+  "keywords": [
+    "zod schema",
+    "json schema",
+    "convert",
+    "typescript",
+    "schema"
+  ],
+  "author": {
+    "name": "Lucas Norgaard",
+    "email": "lucasnrgaard@gmail.com",
+    "url": "https://luxass.dev"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@luxass/eslint-config": "^1.0.7",
+    "@luxass/prettier-config": "^1.0.4",
+    "@types/node": "^18.7.13",
+    "eslint": "^8.23.0",
+    "prettier": "^2.7.1",
+    "strip-json-comments": "^5.0.0",
+    "tsup": "^6.2.3",
+    "vitest": "^0.22.1"
+  },
+  "dependencies": {
+    "typescript": "^4.8.2",
+    "bundle-require": "^3.1.0",
+    "commander": "^9.4.0",
+    "esbuild": "^0.15.7",
+    "joycon": "^3.1.1"
+  }
+}
