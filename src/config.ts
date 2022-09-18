@@ -1,8 +1,9 @@
-import { bundleRequire } from 'bundle-require';
+import { bundleRequire, loadTsConfig } from 'bundle-require';
 import JoyCon from 'joycon';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import strip from 'strip-json-comments';
+import TS from 'typescript';
 
 import { TypeSchemaConfig } from './types';
 
@@ -72,6 +73,28 @@ export async function loadTypeSchemaConfig(
   }
 
   return {};
+}
+
+export const DEFAULT_TSCONFIG: { compilerOptions: TS.CompilerOptions } = {
+  compilerOptions: {
+    target: TS.ScriptTarget.ESNext,
+    module: TS.ModuleKind.ESNext
+  }
+};
+
+export function loadTSConfig(): { compilerOptions: TS.CompilerOptions } {
+  const tsconfig = loadTsConfig(process.cwd());
+  if (tsconfig) {
+    const parsed = tsconfig.data;
+    delete parsed.compilerOptions.outDir;
+    delete parsed.compilerOptions.outFile;
+    delete parsed.compilerOptions.declaration;
+    delete parsed.compilerOptions.declarationDir;
+    delete parsed.compilerOptions.declarationMap;
+    return parsed;
+  } else {
+    return DEFAULT_TSCONFIG;
+  }
 }
 
 export const defineConfig = (config: TypeSchemaConfig) => config;

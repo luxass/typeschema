@@ -3,12 +3,13 @@ import { defineConfig } from 'tsup';
 import { version } from './package.json';
 
 export default defineConfig({
-  entry: ['src/index.ts', 'src/cli.ts', 'src/config.ts', 'src/zod'],
+  entry: ['src/index.ts', 'src/cli.ts', 'src/config.ts', 'src/zod', 'src/json'],
   format: ['esm'],
   clean: true,
   splitting: true,
+  
   dts: {
-    entry: ['src/index.ts', 'src/config.ts'],
+    entry: ['src/index.ts', 'src/config.ts']
   },
   external: ['typescript'],
   define: {
@@ -18,5 +19,8 @@ export default defineConfig({
     return {
       js: '.js'
     };
+  },
+  loader: {
+    '.md': 'file'
   }
 });

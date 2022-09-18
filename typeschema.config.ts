@@ -2,8 +2,23 @@ import { defineConfig } from './src/config';
 
 export default defineConfig({
   zod: {
-    input: ['src/types.ts'],
+    input: ['testing/*.ts'],
+    // input: ['test.ts'],
     outputDir: '.out',
-    tsconfig: 'tsconfig.json'
-  }
+    tsconfig: 'tsconfig.json',
+    jsdoc: {
+      // include: 'typeschema',
+      useTags: true
+    }
+  },
+  // json: {
+  //   input: ['testing/*.ts'],
+  //   // input: ['test.ts'],
+  //   outputDir: '.out',
+  //   tsconfig: 'tsconfig.json',
+  //   jsdoc: {
+  //     // include: 'typeschema',
+  //     useTags: true
+  //   }
+  // }
 });

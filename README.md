@@ -11,6 +11,6 @@ npm install typeschema
 ## Setup
 
 ```typescript
-import { createZodSchema } from 'typeschema';
+import { createZodSchema, createJSONSchema } from 'typeschema';
 
 ```

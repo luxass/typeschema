@@ -3,8 +3,12 @@ import { fileURLToPath } from 'node:url';
 import { Worker } from 'node:worker_threads';
 
 import { TypeSchemaConfig } from './types';
+import { writeFile } from './utils';
+
+export { JSONConfig, JSDocOptions, ZodConfig, TypeSchemaConfig } from './types';
 
 export * from './zod';
+export * from './json';
 
 export async function createTypeSchema(config: TypeSchemaConfig) {
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -20,11 +24,11 @@ export async function createTypeSchema(config: TypeSchemaConfig) {
           ...config.zod
         });
 
-        worker.on('message', (data) => {
-          if (data === 'error') {
-            reject(new Error('error occured while creating Zod schema'));
-          } else if (data === 'success') {
-            resolve();
+        worker.on('message', (data: { type: 'error' | 'success'; data: string }) => {
+          if (data.type === 'error') {
+            reject(new Error(data.data));
+          } else if (data.type === 'success') {
+            resolve(writeFile(path.join(config.zod!.outputDir, 'typeschema.ts'), data.data));
           }
         });
       });
@@ -33,7 +37,24 @@ export async function createTypeSchema(config: TypeSchemaConfig) {
   }
 
   if (config.json) {
-    const jsonTask = async () => {};
+    const jsonTask = async () => {
+      await new Promise<void>((resolve, reject) => {
+        console.log('Creating JSON schema...');
+
+        const worker = new Worker(path.join(__dirname, './json/index.js'));
+        worker.postMessage({
+          ...config.json
+        });
+
+        worker.on('message', (data: { type: 'error' | 'success'; data: string }) => {
+          if (data.type === 'error') {
+            reject(new Error(data.data));
+          } else if (data.type === 'success') {
+            resolve(writeFile(path.join(config.zod!.outputDir, 'typeschema.json'), data.data));
+          }
+        });
+      });
+    };
     tasks.push(jsonTask);
   }
   await Promise.all(tasks.map((task) => task()));
