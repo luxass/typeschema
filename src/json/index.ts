@@ -5,18 +5,9 @@ import ts from 'typescript';
 
 import { DEFAULT_TSCONFIG, loadTSConfig } from '../config';
 import { traverse } from '../traverse';
-import { JSONConfig, TypeSchemaNode } from '../types';
-import { getZodSchema } from "../zod/schema";
+import { JSONConfig, JSONSchema, TypeSchemaNode } from '../types';
 
-interface Schema {
-  name: string;
-  schema: {
-    dependencies: string[];
-    schema: ts.VariableStatement;
-  };
-}
-
-export async function createJSONSchema(config: JSONConfig): Promise<string> {
+export async function createJSONSchema(config: JSONConfig): Promise<JSONSchema> {
   let tsconfig: ts.CompilerOptions;
   if (typeof config.tsconfig === 'string') {
     tsconfig = ts.parseJsonConfigFileContent(
@@ -45,10 +36,7 @@ export async function createJSONSchema(config: JSONConfig): Promise<string> {
     .getSourceFiles()
     .filter((sourceFile) => rootFileNames.includes(sourceFile.fileName));
 
-  const rootNodes = new Map<
-    string,
-    TypeSchemaNode
-  >();
+  const rootNodes = new Map<string, TypeSchemaNode>();
 
   for (const sourceFile of rootSourceFiles) {
     traverse({
@@ -59,24 +47,20 @@ export async function createJSONSchema(config: JSONConfig): Promise<string> {
     });
   }
 
-  const schemas: Schema[] = [...rootNodes.values()].map((schemaNode) => ({
-    name: schemaNode.node.name.text,
-    schema: getZodSchema(schemaNode.node, schemaNode.node.name.text, schemaNode.sourceFile, config)
-  }));
+  const definitions = {};
+  
+  Array.from(rootNodes.values()).forEach((node) => {});
 
-  const printer = ts.createPrinter({
-    newLine: ts.NewLineKind.LineFeed
-  });
+  const jsonSchema: JSONSchema = {
+    $schema: 'http://json-schema.org/draft-07/schema#',
+    definitions
+  };
 
-  const output = schemas.map((schema) => {
-    return printer.printNode(
-      ts.EmitHint.Unspecified,
-      schema.schema.schema,
-      ts.createSourceFile('typeschema.ts', '', ts.ScriptTarget.Latest)
-    );
-  });
+  if (config.id) {
+    jsonSchema.$id = config.id;
+  }
 
-  return output.join('\n\n');
+  return jsonSchema;
 }
 
 async function startJSONSchema(config: JSONConfig) {

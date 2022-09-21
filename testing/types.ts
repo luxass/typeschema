@@ -3,10 +3,9 @@ export * from './storage';
 export * from './auth';
 export * from './manifest';
 
-import { ZodConfig } from '../src';
 
 export interface TT {
-  ll: ZodConfig;
+  ll: string;
 }
 
 export interface LL extends TT {

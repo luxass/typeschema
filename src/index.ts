@@ -50,7 +50,12 @@ export async function createTypeSchema(config: TypeSchemaConfig) {
           if (data.type === 'error') {
             reject(new Error(data.data));
           } else if (data.type === 'success') {
-            resolve(writeFile(path.join(config.zod!.outputDir, 'typeschema.json'), data.data));
+            resolve(
+              writeFile(
+                path.join(config.json!.outputDir, 'typeschema.json'),
+                JSON.stringify(data.data, null, 2)
+              )
+            );
           }
         });
       });

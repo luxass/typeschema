@@ -3,13 +3,26 @@ import { defineConfig } from 'tsup';
 import { version } from './package.json';
 
 export default defineConfig({
-  entry: ['src/index.ts', 'src/cli.ts', 'src/config.ts', 'src/zod', 'src/json'],
+  entry: [
+    'src/index.ts',
+    'src/esbuild-plugin.ts',
+    'src/cli.ts',
+    'src/config.ts',
+    'src/zod/index.ts',
+    'src/json/index.ts'
+  ],
   format: ['esm'],
   clean: true,
   splitting: true,
-  
   dts: {
-    entry: ['src/index.ts', 'src/config.ts']
+    // We do this, because cli.d.ts will have duplicate lines of #!/bin/env node
+    entry: [
+      'src/index.ts',
+      'src/esbuild-plugin.ts',
+      'src/config.ts',
+      'src/zod/index.ts',
+      'src/json/index.ts'
+    ]
   },
   external: ['typescript'],
   define: {
@@ -19,8 +32,5 @@ export default defineConfig({
     return {
       js: '.js'
     };
-  },
-  loader: {
-    '.md': 'file'
   }
 });
