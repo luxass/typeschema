@@ -13,11 +13,10 @@ export default defineConfig({
   }, */
   json: {
     input: ['testing/*.ts'],
-    // input: ['test.ts'],
     outputDir: '.out',
     tsconfig: 'tsconfig.json',
     jsdoc: {
-      // include: 'typeschema',
+      include: 'typeschema',
       useTags: true
     }
   }

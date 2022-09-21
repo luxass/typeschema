@@ -4,6 +4,7 @@ import { parentPort } from 'node:worker_threads';
 import ts from 'typescript';
 
 import { DEFAULT_TSCONFIG, loadTSConfig } from '../config';
+import { log } from "../log";
 import { traverse } from '../traverse';
 import { JSONConfig, JSONSchema, TypeSchemaNode } from '../types';
 
@@ -49,7 +50,9 @@ export async function createJSONSchema(config: JSONConfig): Promise<JSONSchema> 
 
   const definitions = {};
   
-  Array.from(rootNodes.values()).forEach((node) => {});
+  Array.from(rootNodes.values()).forEach((node) => {
+    log('json', node.node.name.escapedText);
+  });
 
   const jsonSchema: JSONSchema = {
     $schema: 'http://json-schema.org/draft-07/schema#',

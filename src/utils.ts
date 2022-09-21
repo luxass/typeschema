@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import { dirname } from 'node:path';
 import ts from 'typescript';
+import { log } from "./log";
 
 import { Metadata, PrettiedTags } from './types';
 
@@ -63,7 +64,8 @@ export function camelize(str: string) {
 }
 
 export function getPropertiesFromTags(tags: PrettiedTags[], metadata: Metadata) {
-  console.log(tags);
+  log('tags', tags);
+
   return [];
 }
 

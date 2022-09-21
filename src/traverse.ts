@@ -1,4 +1,5 @@
 import ts from 'typescript';
+import { log } from "./log";
 
 import { JSDocOptions, PrettiedTags, TypeSchemaNode } from './types';
 import { getPrettyJSDoc } from './utils';
@@ -27,7 +28,8 @@ export function traverse({ node, rootNodes, sourceFile, jsDocOptions }: Traverse
 
   if (ts.isInterfaceDeclaration(node) || ts.isTypeAliasDeclaration(node)) {
     if (node.typeParameters) {
-      console.log(`${node.name.escapedText} is not supported (generic)`);
+      
+      log('TRAVERSE', `${node.name.escapedText} is not supported (generic)`);
       return;
     }
     const tags = getPrettyJSDoc(node, sourceFile);
