@@ -16,7 +16,7 @@ export default defineConfig({
     outputDir: '.out',
     tsconfig: 'tsconfig.json',
     jsdoc: {
-      include: 'typeschema',
+      // include: 'typeschema',
       useTags: true
     }
   }

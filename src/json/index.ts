@@ -4,7 +4,7 @@ import { parentPort } from 'node:worker_threads';
 import ts from 'typescript';
 
 import { DEFAULT_TSCONFIG, loadTSConfig } from '../config';
-import { log } from "../log";
+import { info } from "../log";
 import { traverse } from '../traverse';
 import { JSONConfig, JSONSchema, TypeSchemaNode } from '../types';
 
@@ -19,6 +19,7 @@ export async function createJSONSchema(config: JSONConfig): Promise<JSONSchema> 
   } else {
     tsconfig = config.tsconfig || DEFAULT_TSCONFIG.compilerOptions;
   }
+  
   if (!config.input.length) {
     throw new Error('No input files');
   }
@@ -51,7 +52,7 @@ export async function createJSONSchema(config: JSONConfig): Promise<JSONSchema> 
   const definitions = {};
   
   Array.from(rootNodes.values()).forEach((node) => {
-    log('json', node.node.name.escapedText);
+    info('json', node.node.name.escapedText);
   });
 
   const jsonSchema: JSONSchema = {

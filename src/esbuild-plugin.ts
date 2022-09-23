@@ -4,13 +4,13 @@
 import { Plugin } from 'esbuild';
 
 import { createTypeSchema } from '.';
-import { log } from './log';
+import { info } from './log';
 import { TypeSchemaConfig } from './types';
 
 const TypeSchemaPlugin = ({ json, zod }: TypeSchemaConfig): Plugin => ({
   name: 'typeschema',
   setup(build) {
-    log('esbuild', 'Setting up typeschema plugin');
+    info('esbuild', 'Setting up typeschema plugin');
     createTypeSchema({ json, zod });
   }
 });

@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Worker } from 'node:worker_threads';
-import { log } from "./log";
+import { info } from "./log";
 
 import { TypeSchemaConfig } from './types';
 import { writeFile } from './utils';
@@ -18,7 +18,7 @@ export async function createTypeSchema(config: TypeSchemaConfig) {
   if (config.zod) {
     const zodTask = async () => {
       await new Promise<void>((resolve, reject) => {
-        log('zod', 'Creating Zod schema...');
+        info('zod', 'Creating Zod schema...');
 
         const worker = new Worker(path.join(__dirname, './zod/index.js'));
         worker.postMessage({
@@ -40,7 +40,7 @@ export async function createTypeSchema(config: TypeSchemaConfig) {
   if (config.json) {
     const jsonTask = async () => {
       await new Promise<void>((resolve, reject) => {
-        log('json', 'Creating JSON schema...');
+        info('json', 'Creating JSON schema...');
 
         const worker = new Worker(path.join(__dirname, './json/index.js'));
         worker.postMessage({
