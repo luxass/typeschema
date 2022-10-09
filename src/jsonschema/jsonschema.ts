@@ -5,9 +5,9 @@ import ts from 'typescript';
 import { DEFAULT_TSCONFIG, loadTSConfig } from '../config';
 import { info } from '../log';
 import { traverse } from '../traverse';
-import { JSONSchema, JSONSchemaConfig, TypeSchemaNode } from '../types';
+import { JSONSchemaConfig, TypeSchemaNode, TypeSchemaParser } from '../types';
 
-export async function createJSONSchema(config: JSONSchemaConfig): Promise<JSONSchema> {
+export async function buildJSONSchema(config: JSONSchemaConfig): Promise<TypeSchemaParser> {
   let tsconfig: ts.CompilerOptions;
   if (typeof config.tsconfig === 'string') {
     tsconfig = ts.parseJsonConfigFileContent(
@@ -54,11 +54,13 @@ export async function createJSONSchema(config: JSONSchemaConfig): Promise<JSONSc
     info('json', node.node.name.escapedText);
   });
 
-  const jsonSchema: JSONSchema = {
-    ...(config.id ? { $id: config.id } : {}),
-    $schema: 'http://json-schema.org/draft-07/schema#',
-    definitions
+  
+  return {
+    parse: () => {
+      return {
+        type: 'object',
+        properties: {}
+      };
+    }
   };
-
-  return jsonSchema;
 }

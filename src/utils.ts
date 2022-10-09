@@ -1,9 +1,9 @@
 import fs from 'node:fs/promises';
 import { dirname } from 'node:path';
 import ts from 'typescript';
-import { info } from "./log";
 
-import { Metadata, PrettiedTags } from './types';
+import { info, warn } from './log';
+import { Metadata, PrettiedTags, ZodProperty } from './types';
 
 function isJsDoc(node: ts.Node): node is ts.JSDoc {
   return node.kind === ts.SyntaxKind.JSDoc;
@@ -26,7 +26,7 @@ export function getPrettyJSDoc(node: ts.Node, sourceFile: ts.SourceFile) {
   tags.forEach((_tag) => {
     (_tag.tags || []).forEach((tag) => {
       prettiedTags.push({
-        tag: tag.tagName.escapedText.toString(),
+        tagName: tag.tagName.escapedText.toString(),
         comment: tag.comment || undefined
       });
     });
@@ -57,14 +57,28 @@ export async function writeFile(path: string, data: string) {
   }
 }
 
+// TODO: This is not great for things like HTPasswd -> hTPasswd
 export function camelize(str: string) {
-  return str.replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => {
-    return index === 0 ? word.toLowerCase() : word.toUpperCase();
-  }).replace(/\s+/g, '');
+  return str
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => {
+      return index === 0 ? word.toLowerCase() : word.toUpperCase();
+    })
+    .replace(/\s+/g, '');
 }
 
-export function getPropertiesFromTags(tags: PrettiedTags[], metadata: Metadata) {
-  info('tags', tags);
+export function getPropertiesFromTags(tags: PrettiedTags[], metadata: Metadata): ZodProperty[] {
+  const properties: string[] = [];
+  // reduce tags
+
+  const zodProperties: ZodProperty[] = tags.reduce((prev, curr) => {
+    warn('CURR', curr);
+    warn('PREV', prev);
+
+    prev.push({
+      identifier: ''
+    });
+    return prev;
+  }, [] as ZodProperty[]);
 
   return [];
 }

@@ -2,11 +2,11 @@ import ts from 'typescript';
 
 export interface TypeSchemaConfig {
   zod?: ZodConfig;
-  json?: JSONConfig;
+  jsonschema?: JSONSchemaConfig;
 }
 
 export interface PrettiedTags {
-  tag: string;
+  tagName: string;
   comment?: string | ts.NodeArray<ts.JSDocComment>;
 }
 
@@ -55,7 +55,7 @@ export interface ZodConfig {
   bannerText?: string;
 }
 
-export interface JSONConfig {
+export interface JSONSchemaConfig {
   /**
    * Path to input files.
    */
@@ -99,6 +99,11 @@ export interface Metadata {
 export interface TypeSchemaNode {
   node: ts.InterfaceDeclaration | ts.TypeAliasDeclaration | ts.EnumDeclaration;
   sourceFile: ts.SourceFile;
+}
+
+export interface ZodProperty {
+  identifier: string;
+  expressions?: ts.Expression[];
 }
 
 export type JSONSchemaPrimitiveName =
@@ -194,4 +199,14 @@ export interface JSONSchema {
   readOnly?: boolean;
   writeOnly?: boolean;
   examples?: JSONSchemaPrimitive;
+}
+
+
+export interface TypeSchemaParser {
+
+}
+
+export interface TypeSchemaNodeV2 {
+
+
 }

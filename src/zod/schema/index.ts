@@ -1,61 +1,52 @@
 import ts from 'typescript';
 
+import { error } from '../../log';
 import { ZodConfig } from '../../types';
 import { camelize, getPrettyJSDoc } from '../../utils';
-import { buildObject } from './object';
-import { buildPrimitive } from './primitive';
-import { buildSchema } from './schema';
+import { getEnum, getNativeEnum } from './enum';
+import { getObject } from './object';
+import { getPrimitive } from "./primitive";
 
 const factory = ts.factory;
 
-export function getZodSchema(
-  node: ts.InterfaceDeclaration | ts.TypeAliasDeclaration | ts.EnumDeclaration,
-  name: string,
-  sourceFile: ts.SourceFile,
-  config: ZodConfig
-): {
-  dependencies: string[];
-  schema: ts.VariableStatement;
-} {
-  let schema: ts.CallExpression | ts.Identifier | ts.PropertyAccessExpression | undefined;
+type SchemaNode = ts.InterfaceDeclaration | ts.TypeAliasDeclaration | ts.EnumDeclaration;
+
+export function getZodSchema(node: SchemaNode, sourceFile: ts.SourceFile, config: ZodConfig) {
   let dependencies: string[] = [];
+  let schema: ts.CallExpression | ts.Identifier | ts.PropertyAccessExpression | undefined;
+  let imports: string[] = [];
+
+  // Throw errors on generics.
+  if ((node as any).typeParameters) {
+    throw new TypeError('Generics are not supported!');
+  }
 
   if (ts.isInterfaceDeclaration(node)) {
-    let schemaExtensionClauses: string[] | undefined;
-    if (node.typeParameters) {
-      throw new Error('Interface with generics are not supported!');
-    }
+    let heritageClauses: string[] | undefined;
 
+    // extends
     if (node.heritageClauses) {
-      schemaExtensionClauses = node.heritageClauses.reduce((deps: string[], h) => {
-        if (h.token !== ts.SyntaxKind.ExtendsKeyword || !h.types) {
-          return deps;
-        }
+      heritageClauses = node.heritageClauses.reduce((prev: string[], curr) => {
+        if (curr.token !== ts.SyntaxKind.ExtendsKeyword || !curr.types) return prev;
 
-        const heritages = h.types.map(
-          (expression) => `${camelize(expression.getText(sourceFile))}Schema`
-        );
+        const heritages = curr.types.map((expression) => camelize(expression.getText(sourceFile)));
 
-        return deps.concat(heritages);
+        return prev.concat(heritages);
       }, []);
-
-      dependencies = dependencies.concat(schemaExtensionClauses);
+      dependencies = heritageClauses;
     }
-
-    schema = buildObject(node, {
+    schema = getObject(node, {
       dependencies,
-      heritageClauses: schemaExtensionClauses,
+      heritageClauses,
       sourceFile
     });
   }
 
   if (ts.isTypeAliasDeclaration(node)) {
-    if (node.typeParameters) {
-      throw new Error('Type with generics are not supported!');
-    }
-    const tags = config.jsdoc?.useTags ? [] : getPrettyJSDoc(node, sourceFile);
     
-    schema = buildPrimitive(node.type, {
+    const tags = config.jsdoc?.useTags ? getPrettyJSDoc(node, sourceFile) : [];
+
+    schema = getPrimitive(node.type, {
       dependencies,
       isOptional: false,
       tags,
@@ -64,17 +55,25 @@ export function getZodSchema(
   }
 
   if (ts.isEnumDeclaration(node)) {
-    schema = buildSchema('nativeEnum', [node.name]);
+    const tags = getPrettyJSDoc(node, sourceFile);
+    if (tags.find((tag) => tag.tagName === 'native-enum' || tag.tagName === 'nativeEnum')) {
+      console.log('DEPES', dependencies);
+      
+      schema = getNativeEnum(node, sourceFile, imports);
+    } else {
+      schema = getEnum(node, sourceFile);
+    }
   }
 
   return {
     dependencies: [...new Set(dependencies)],
+    imports: [...new Set(imports)],
     schema: factory.createVariableStatement(
       node.modifiers,
       factory.createVariableDeclarationList(
         [
           factory.createVariableDeclaration(
-            factory.createIdentifier(`${camelize(name)}Schema`),
+            factory.createIdentifier(`${camelize(node.name.text)}Schema`),
             undefined,
             undefined,
             schema

@@ -1,17 +1,20 @@
 import ts from 'typescript';
 
+import { error } from '../../log';
 import { Metadata } from '../../types';
-import { buildPrimitive } from "./primitive";
-import { buildProperties } from './properties';
-import { buildExtendedSchema, buildSchema } from './schema';
+import { getPrettyJSDoc } from '../../utils';
+import { buildPrimitive } from '../old/primitive';
+import { buildProperties } from '../old/properties';
+import { buildExtendedSchema, buildSchema } from '../old/schema';
+import { createSchema } from './schema';
 
 const factory = ts.factory;
 
-export function buildObject(
-  typeNode: ts.TypeLiteralNode | ts.InterfaceDeclaration,
+export function getObject(
+  node: ts.TypeLiteralNode | ts.InterfaceDeclaration,
   metadata: Metadata
 ): ts.CallExpression {
-  const { properties, indexSignature } = typeNode.members.reduce<{
+  const { properties, indexSignature } = node.members.reduce<{
     properties: ts.PropertySignature[];
     indexSignature?: ts.IndexSignatureDeclaration;
   }>(
@@ -32,56 +35,90 @@ export function buildObject(
     },
     { properties: [] }
   );
+  
+  if (properties.length) {
+    const parsedProperties = parseProperties(properties, metadata);
 
-  let objectSchema: ts.CallExpression | undefined;
-
-  if (properties.length > 0) {
-    const parsedProperties = buildProperties(properties, metadata);
-
-    if (metadata.heritageClauses && metadata.heritageClauses.length > 0) {
-      objectSchema = buildExtendedSchema(metadata.heritageClauses, [
-        factory.createObjectLiteralExpression(
-          Array.from(parsedProperties.entries()).map(([key, tsCall]) => {
-            return factory.createPropertyAssignment(key, tsCall);
-          }),
-          true
-        )
-      ]);
-    } else {
-      objectSchema = buildSchema('object', [
-        factory.createObjectLiteralExpression(
-          Array.from(parsedProperties.entries()).map(([key, tsCall]) => {
-            return factory.createPropertyAssignment(key, tsCall);
-          }),
-          true
-        )
-      ]);
+    if (metadata.heritageClauses) {
+      error('Extending interfaces is not supported yet!');
+      return null;
     }
+
+    if (indexSignature) {
+      error('Extending interfaces is not supported yet!');
+      return null;
+    }
+
+    return createSchema('object', [
+      factory.createObjectLiteralExpression(
+        Array.from(parsedProperties.entries()).map(([key, tsCall]) => {
+          return factory.createPropertyAssignment(key, tsCall);
+        }),
+        true
+      )
+    ]);
   }
 
+
+  // If no properties, but has a indexSignature
   if (indexSignature) {
     if (metadata.heritageClauses) {
-      throw new Error('interface with `extends` and index signature are not supported!');
+      error('Extending interfaces is not supported yet!');
+      return null;
     }
-    const indexSignatureSchema = buildSchema('record', [
-      // Index signature type can't be optional or have validators.
-      buildPrimitive(indexSignature.type, {
-        ...metadata,
-        isOptional: false,
-        tags: []
-      })
-    ]);
 
-    if (objectSchema) {
-      return factory.createCallExpression(
-        factory.createPropertyAccessExpression(indexSignatureSchema, factory.createIdentifier('and')),
-        undefined,
-        [objectSchema]
-      );
-    }
-    return indexSignatureSchema;
-  } else if (objectSchema) {
-    return objectSchema;
+    return factory.createCallExpression(
+      factory.createPropertyAccessExpression(
+        createSchema('object', [
+          factory.createObjectLiteralExpression(
+           [],
+            true
+          )
+        ]),
+        factory.createIdentifier('catchall')
+      ),
+      undefined,
+      [factory.createIdentifier('z.string()')]
+    );
+
+
   }
-  return buildSchema('object', [factory.createObjectLiteralExpression()]);
+ 
+  return createSchema('object', [factory.createObjectLiteralExpression([], true)]);
 }
+
+// TODO: Just for testing
+function parseProperties(
+  members: ts.NodeArray<ts.TypeElement> | ts.PropertySignature[],
+  metadata: Metadata
+) {
+  const properties = new Map<
+    ts.Identifier | ts.StringLiteral,
+    ts.CallExpression | ts.Identifier | ts.PropertyAccessExpression
+  >();
+  members.forEach((member) => {
+    if (
+      !ts.isPropertySignature(member) ||
+      !member.type ||
+      !(ts.isIdentifier(member.name) || ts.isStringLiteral(member.name))
+    ) {
+      return;
+    }
+
+    // const isOptional = Boolean(member.questionToken);
+    // const jsDocTags = skipParseJSDoc ? {} : getJSDocTags(member, sourceFile);
+    const tags = metadata.useTags ? [] : getPrettyJSDoc(member, metadata.sourceFile);
+
+    properties.set(
+      member.name,
+      buildPrimitive(member.type, {
+        tags,
+        isOptional: Boolean(member.questionToken),
+        sourceFile: metadata.sourceFile,
+        dependencies: metadata.dependencies
+      })
+    );
+  });
+  return properties;
+}
+

@@ -1,15 +1,29 @@
+import { SyntaxKind } from 'typescript';
+
 import { PluginContext } from './api';
+
 export * from './storage';
 export * from './auth';
 export * from './manifest';
-
 
 export interface TT {
   ll: string;
 }
 
+export interface TTPlugin {
+  [key: string]: any;
+}
+
+export type GG = {
+  [key: string]: any;
+}
+
 export interface LL extends TT {
-  aa: string
+  aa: string;
+}
+
+export interface AA extends {
+  [key: string]: any;
 }
 
 /**
@@ -151,3 +165,56 @@ export interface ZoteraWebConfig {
 export type OmitSafe<T extends object, K extends keyof T> = Omit<T, K>;
 // export type NodeOptions = OmitSafe<ZoteraConfig, 'logging' | 'pluginDir' | '__location'>;
 export type HTPasswdAlgorithms = 'sha256' | 'sha512' | 'bcrypt';
+
+interface LA {
+  bb: LB;
+}
+
+interface LB {
+  cc: LA;
+}
+
+enum Test {
+  A = 'V',
+  B = 'D'
+}
+
+enum Test2 {
+  A,
+  B,
+  C
+}
+
+// /**
+//  * @native-enum alsdjkas
+//  */
+// enum Test3 {
+//   A,
+//   B,
+//   C
+// }
+
+/**
+ * @native-enum alsdjkas
+ */
+enum Test4 {
+  A = 'V',
+  B = 'D',
+  C = 'A'
+}
+
+type Person = { age: number; name: string; alive: boolean };
+type Age = Person["age"];
+
+enum Test5 {
+  A = 0,
+  B = 1,
+  C = 2
+}
+
+
+
+interface Haha {
+  test: Test;
+  test2: SyntaxKind;
+}

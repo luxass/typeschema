@@ -1,15 +1,16 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Worker } from 'node:worker_threads';
-import { info } from "./log";
 
+import { info } from './log';
 import { TypeSchemaConfig } from './types';
 import { writeFile } from './utils';
 
-export { JSONConfig, JSDocOptions, ZodConfig, TypeSchemaConfig } from './types';
+export { JSONSchemaConfig, JSDocOptions, ZodConfig, TypeSchemaConfig } from './types';
 
 export * from './zod';
 export * from './json';
+export * from './jsonschema';
 
 export async function createTypeSchema(config: TypeSchemaConfig) {
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -20,7 +21,7 @@ export async function createTypeSchema(config: TypeSchemaConfig) {
       await new Promise<void>((resolve, reject) => {
         info('zod', 'Creating Zod schema...');
 
-        const worker = new Worker(path.join(__dirname, './zod/index.js'));
+        const worker = new Worker(path.join(__dirname, './workers/zod-schema-worker.js'));
         worker.postMessage({
           ...config.zod
         });
@@ -37,14 +38,14 @@ export async function createTypeSchema(config: TypeSchemaConfig) {
     tasks.push(zodTask);
   }
 
-  if (config.json) {
+  if (config.jsonschema) {
     const jsonTask = async () => {
       await new Promise<void>((resolve, reject) => {
         info('json', 'Creating JSON schema...');
 
-        const worker = new Worker(path.join(__dirname, './json/index.js'));
+        const worker = new Worker(path.join(__dirname, './workers/json-schema-worker.js'));
         worker.postMessage({
-          ...config.json
+          ...config.jsonschema
         });
 
         worker.on('message', (data: { type: 'error' | 'success'; data: string }) => {
@@ -53,7 +54,7 @@ export async function createTypeSchema(config: TypeSchemaConfig) {
           } else if (data.type === 'success') {
             resolve(
               writeFile(
-                path.join(config.json!.outputDir, 'typeschema.json'),
+                path.join(config.jsonschema!.outputDir, 'typeschema.json'),
                 JSON.stringify(data.data, null, 2)
               )
             );

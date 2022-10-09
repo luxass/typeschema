@@ -7,11 +7,11 @@ import { createTypeSchema } from '.';
 import { info } from './log';
 import { TypeSchemaConfig } from './types';
 
-const TypeSchemaPlugin = ({ json, zod }: TypeSchemaConfig): Plugin => ({
+const TypeSchemaPlugin = ({ jsonschema, zod }: TypeSchemaConfig): Plugin => ({
   name: 'typeschema',
   setup(build) {
     info('esbuild', 'Setting up typeschema plugin');
-    createTypeSchema({ json, zod });
+    createTypeSchema({ jsonschema, zod });
   }
 });
 

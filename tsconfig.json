@@ -7,7 +7,7 @@
     "esModuleInterop": true,
     "strict": true,
     "declaration": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "useUnknownInCatchVariables": false,
     "resolveJsonModule": true,
     "preserveSymlinks": true,

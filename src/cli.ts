@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 import { program } from 'commander';
 
 import { createTypeSchema } from '.';
@@ -12,10 +11,11 @@ declare global {
 program
   .name('typeschema')
   .version(__VERSION__)
-  .option('-o, --output <path>', 'set output path')
+  .option('-c, --config <path>', 'path to config file')
   .action(async () => {
+    const opts = program.opts();
     try {
-      const config = await loadTypeSchemaConfig(process.cwd());
+      const config = await loadTypeSchemaConfig(opts.config || process.cwd());
       if (!config.data || !config.path) {
         throw new Error('Could not load config');
       }
