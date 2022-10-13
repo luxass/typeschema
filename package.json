@@ -59,7 +59,7 @@
   "devDependencies": {
     "@luxass/eslint-config": "^1.0.7",
     "@luxass/prettier-config": "^1.0.4",
-    "@types/node": "^18.8.4",
+    "@types/node": "^18.8.5",
     "colorette": "^2.0.19",
     "eslint": "^8.25.0",
     "prettier": "^2.7.1",

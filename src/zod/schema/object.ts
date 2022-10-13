@@ -35,7 +35,7 @@ export function getObject(
     },
     { properties: [] }
   );
-  
+
   if (properties.length) {
     const parsedProperties = parseProperties(properties, metadata);
 
@@ -59,7 +59,6 @@ export function getObject(
     ]);
   }
 
-
   // If no properties, but has a indexSignature
   if (indexSignature) {
     if (metadata.heritageClauses) {
@@ -69,21 +68,14 @@ export function getObject(
 
     return factory.createCallExpression(
       factory.createPropertyAccessExpression(
-        createSchema('object', [
-          factory.createObjectLiteralExpression(
-           [],
-            true
-          )
-        ]),
+        createSchema('object', [factory.createObjectLiteralExpression([], true)]),
         factory.createIdentifier('catchall')
       ),
       undefined,
       [factory.createIdentifier('z.string()')]
     );
-
-
   }
- 
+
   return createSchema('object', [factory.createObjectLiteralExpression([], true)]);
 }
 
@@ -121,4 +113,3 @@ function parseProperties(
   });
   return properties;
 }
-

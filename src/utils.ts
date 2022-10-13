@@ -1,3 +1,4 @@
+import { globby } from 'globby';
 import fs from 'node:fs/promises';
 import { dirname } from 'node:path';
 import ts from 'typescript';
@@ -97,4 +98,19 @@ export function findNode<TNode extends ts.Node>(
   ts.forEachChild(sourceFile, visitor);
 
   return declarationNode;
+}
+
+export async function convertInputFilesToRegex(inputFiles: string[]): Promise<RegExp> {
+  info('CONVERT', inputFiles);
+  console.log(await getGlobby(inputFiles));
+
+  // Convert inputFiles into regex
+
+  return new RegExp('');
+}
+
+export async function getGlobby(inputFiles: string[]) {
+  return await globby(inputFiles, {
+    absolute: true
+  });
 }

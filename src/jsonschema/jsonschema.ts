@@ -6,6 +6,7 @@ import { DEFAULT_TSCONFIG, loadTSConfig } from '../config';
 import { info } from '../log';
 import { traverse } from '../traverse';
 import { JSONSchemaConfig, TypeSchemaNode, TypeSchemaParser } from '../types';
+import { getGlobby } from '../utils';
 
 export async function buildJSONSchema(config: JSONSchemaConfig): Promise<TypeSchemaParser> {
   let tsconfig: ts.CompilerOptions;
@@ -23,9 +24,7 @@ export async function buildJSONSchema(config: JSONSchemaConfig): Promise<TypeSch
     throw new Error('No input files');
   }
 
-  const inputFiles = await globby(config.input, {
-    absolute: true
-  });
+  const inputFiles = await getGlobby(config.input);
 
   const program = ts.createProgram({
     rootNames: inputFiles,
@@ -54,7 +53,6 @@ export async function buildJSONSchema(config: JSONSchemaConfig): Promise<TypeSch
     info('json', node.node.name.escapedText);
   });
 
-  
   return {
     parse: () => {
       return {
