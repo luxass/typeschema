@@ -6,7 +6,7 @@ import { Plugin } from 'esbuild';
 import { createTypeSchema } from '.';
 import { info } from './log';
 import { TypeSchemaConfig } from './types';
-import { convertInputFilesToRegex } from "./utils";
+import { convertInputFilesToRegex } from './utils';
 
 const TypeSchemaPlugin = ({ jsonschema, zod }: TypeSchemaConfig): Plugin => ({
   name: 'typeschema',
@@ -21,7 +21,7 @@ const TypeSchemaPlugin = ({ jsonschema, zod }: TypeSchemaConfig): Plugin => ({
         loader: 'json',
       }
     }) */
-   // await createTypeSchema({ jsonschema, zod });
+    // await createTypeSchema({ jsonschema, zod });
   }
 });
 

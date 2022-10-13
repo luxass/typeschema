@@ -1,7 +1,7 @@
 import ts from 'typescript';
 
 import { Metadata } from '../../types';
-import { buildPrimitive } from "./primitive";
+import { buildPrimitive } from './primitive';
 import { buildProperties } from './properties';
 import { buildExtendedSchema, buildSchema } from './schema';
 
@@ -74,7 +74,10 @@ export function buildObject(
 
     if (objectSchema) {
       return factory.createCallExpression(
-        factory.createPropertyAccessExpression(indexSignatureSchema, factory.createIdentifier('and')),
+        factory.createPropertyAccessExpression(
+          indexSignatureSchema,
+          factory.createIdentifier('and')
+        ),
         undefined,
         [objectSchema]
       );

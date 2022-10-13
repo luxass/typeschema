@@ -1,12 +1,12 @@
-import { TypeSchemaParser } from "../types";
+import { TypeSchemaParser } from '../types';
 
 export function buildJSONSchema(): TypeSchemaParser {
   return {
     parse: () => {
       return {
-        type: "object",
-        properties: {},
+        type: 'object',
+        properties: {}
       };
-    },
+    }
   };
 }

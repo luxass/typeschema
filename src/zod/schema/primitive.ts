@@ -1,6 +1,6 @@
 import ts from 'typescript';
-import { warn } from "../../log";
 
+import { warn } from '../../log';
 import { Metadata, ZodProperty } from '../../types';
 import { camelize, getPropertiesFromTags } from '../../utils';
 import { createSchema } from './schema';
@@ -10,10 +10,6 @@ export function getPrimitive(
   metadata: Metadata
 ): ts.CallExpression | ts.Identifier | ts.PropertyAccessExpression {
   const zodProperties: ZodProperty[] = getPropertiesFromTags(metadata.tags || [], metadata);
-
-  
-
-
 
   switch (node.kind) {
     case ts.SyntaxKind.StringKeyword:
@@ -36,6 +32,6 @@ export function getPrimitive(
       return createSchema('unknown', [], zodProperties);
   }
 
-  warn('unsupported', `'${ts.SyntaxKind[node.kind]}' is not supported, fallback into 'z.any()'`)
+  warn('unsupported', `'${ts.SyntaxKind[node.kind]}' is not supported, fallback into 'z.any()'`);
   return createSchema('any', [], zodProperties);
 }

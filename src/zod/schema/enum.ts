@@ -20,7 +20,6 @@ export function getEnum(node: ts.EnumDeclaration, sourceFile: ts.SourceFile): ts
   ]);
 }
 
-
 // TODO: Fix nativeEnum
 // Something like find all imports from the file,
 // and match the import value with the enum name.

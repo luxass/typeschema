@@ -12,7 +12,7 @@ export function buildSchema(
   properties?: ZodProperty[]
 ) {
   console.log(properties);
-  
+
   return withProperties(
     factory.createCallExpression(
       factory.createPropertyAccessExpression(

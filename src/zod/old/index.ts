@@ -54,7 +54,7 @@ export function getZodSchema(
       throw new Error('Type with generics are not supported!');
     }
     const tags = config.jsdoc?.useTags ? [] : getPrettyJSDoc(node, sourceFile);
-    
+
     schema = buildPrimitive(node.type, {
       dependencies,
       isOptional: false,

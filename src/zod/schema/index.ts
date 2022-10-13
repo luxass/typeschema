@@ -5,7 +5,7 @@ import { ZodConfig } from '../../types';
 import { camelize, getPrettyJSDoc } from '../../utils';
 import { getEnum, getNativeEnum } from './enum';
 import { getObject } from './object';
-import { getPrimitive } from "./primitive";
+import { getPrimitive } from './primitive';
 
 const factory = ts.factory;
 
@@ -43,7 +43,6 @@ export function getZodSchema(node: SchemaNode, sourceFile: ts.SourceFile, config
   }
 
   if (ts.isTypeAliasDeclaration(node)) {
-    
     const tags = config.jsdoc?.useTags ? getPrettyJSDoc(node, sourceFile) : [];
 
     schema = getPrimitive(node.type, {
@@ -58,7 +57,7 @@ export function getZodSchema(node: SchemaNode, sourceFile: ts.SourceFile, config
     const tags = getPrettyJSDoc(node, sourceFile);
     if (tags.find((tag) => tag.tagName === 'native-enum' || tag.tagName === 'nativeEnum')) {
       console.log('DEPES', dependencies);
-      
+
       schema = getNativeEnum(node, sourceFile, imports);
     } else {
       schema = getEnum(node, sourceFile);

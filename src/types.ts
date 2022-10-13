@@ -201,12 +201,6 @@ export interface JSONSchema {
   examples?: JSONSchemaPrimitive;
 }
 
+export interface TypeSchemaParser {}
 
-export interface TypeSchemaParser {
-
-}
-
-export interface TypeSchemaNodeV2 {
-
-
-}
+export interface TypeSchemaNodeV2 {}
