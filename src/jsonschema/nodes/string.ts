@@ -1,6 +1,6 @@
-import { TypeSchemaNodeV2 } from '../../types';
+import { TypeSchemaNode } from '../../types';
 
-export function parseString(): TypeSchemaNodeV2 {
+export function parseString(): TypeSchemaNode {
   return {
     type: 'string'
   };

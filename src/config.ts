@@ -7,6 +7,10 @@ import TS from 'typescript';
 
 import { TypeSchemaConfig } from './types';
 
+// Used to retrieve options from the configuration file,
+// instead of passing everything through each function.
+export const GLOBAL_CONFIG = new Map<string, unknown>();
+
 const joycon = new JoyCon();
 
 const loadJson = async (filepath: string) => {

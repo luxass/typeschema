@@ -21,7 +21,7 @@ export function getJSDoc(node: ts.Node, sourceFile: ts.SourceFile): ts.JSDoc[] {
   return result;
 }
 
-export function getPrettyJSDoc(node: ts.Node, sourceFile: ts.SourceFile) {
+export function getPrettyJSDoc(node: ts.Node, sourceFile: ts.SourceFile): PrettiedTags[] {
   const tags = getJSDoc(node, sourceFile);
   const prettiedTags: PrettiedTags[] = [];
   tags.forEach((_tag) => {
@@ -100,6 +100,9 @@ export function findNode<TNode extends ts.Node>(
   return declarationNode;
 }
 
+// This is required by ESBUILD plugin i think.
+// So we can match only the files we need, instead of all files.
+// ESBUILD will only pass the files matching the regex
 export async function convertInputFilesToRegex(inputFiles: string[]): Promise<RegExp> {
   info('CONVERT', inputFiles);
   console.log(await getGlobby(inputFiles));
@@ -113,4 +116,58 @@ export async function getGlobby(inputFiles: string[]) {
   return await globby(inputFiles, {
     absolute: true
   });
+}
+
+export function parseMembers(members: ts.NodeArray<ts.TypeElement>) {
+  return members.reduce<{
+    properties: ts.PropertySignature[];
+    indexSignature?: ts.IndexSignatureDeclaration;
+  }>(
+    (mem, member) => {
+      if (ts.isIndexSignatureDeclaration(member)) {
+        return {
+          ...mem,
+          indexSignature: member
+        };
+      }
+      if (ts.isPropertySignature(member)) {
+        return {
+          ...mem,
+          properties: [...mem.properties, member]
+        };
+      }
+      return mem;
+    },
+    { properties: [] }
+  );
+}
+
+export function getTypeName(node: ts.Node) {
+  // JS PLEASE, i beg you make this possible
+  // return switch(node.kind) {
+  //   case ts.SyntaxKind.AbstractKeyword => 'abstract'
+  //   default => 'unknown'
+  // }
+  switch (node.kind) {
+    case ts.SyntaxKind.ArrayType:
+      return 'array';
+    case ts.SyntaxKind.BigIntKeyword:
+      return 'bigint';
+    case ts.SyntaxKind.BooleanKeyword:
+      return 'boolean';
+    case ts.SyntaxKind.EnumKeyword:
+      return 'enum';
+    case ts.SyntaxKind.FunctionType:
+      return 'function';
+    case ts.SyntaxKind.ObjectKeyword:
+    case ts.SyntaxKind.InterfaceKeyword:
+      return 'object';
+    case ts.SyntaxKind.NumberKeyword:
+      return 'number';
+    case ts.SyntaxKind.StringKeyword:
+    case ts.SyntaxKind.StringLiteral:
+      return 'string';
+    default:
+      throw new TypeError(`Unknown type: ${node.getText()}`);
+  }
 }

@@ -1,13 +1,14 @@
-import { globby } from 'globby';
 import path from 'node:path';
 import ts from 'typescript';
 
 import { DEFAULT_TSCONFIG, loadTSConfig } from '../config';
 import { info } from '../log';
+import { parseTypeScript } from '../parser';
 import { traverse } from '../traverse';
-import { JSONSchema, JSONSchemaConfig, TypeSchemaNode } from '../types';
+import { JSONSchema, JSONSchemaConfig, TypeSchemaNodeV1, TypeSchemaParser, ZodConfig } from '../types';
+import { getGlobby } from '../utils';
 
-export async function createJSONSchema(config: JSONSchemaConfig): Promise<JSONSchema> {
+export async function buildZodSchema(config: ZodConfig): Promise<string> {
   let tsconfig: ts.CompilerOptions;
   if (typeof config.tsconfig === 'string') {
     tsconfig = ts.parseJsonConfigFileContent(
@@ -23,9 +24,7 @@ export async function createJSONSchema(config: JSONSchemaConfig): Promise<JSONSc
     throw new Error('No input files');
   }
 
-  const inputFiles = await globby(config.input, {
-    absolute: true
-  });
+  const inputFiles = await getGlobby(config.input);
 
   const program = ts.createProgram({
     rootNames: inputFiles,
@@ -37,7 +36,7 @@ export async function createJSONSchema(config: JSONSchemaConfig): Promise<JSONSc
     .getSourceFiles()
     .filter((sourceFile) => rootFileNames.includes(sourceFile.fileName));
 
-  const rootNodes = new Map<string, TypeSchemaNode>();
+  const rootNodes = new Map<string, ts.NodeWithSourceFile>();
 
   for (const sourceFile of rootSourceFiles) {
     traverse({
@@ -48,17 +47,9 @@ export async function createJSONSchema(config: JSONSchemaConfig): Promise<JSONSc
     });
   }
 
-  const definitions = {};
+  const nodes = Array.from(rootNodes.values());
+  const trees = parseTypeScript(nodes);
+  console.log(trees);
 
-  Array.from(rootNodes.values()).forEach((node) => {
-    info('json', node.node.name.escapedText);
-  });
-
-  const jsonSchema: JSONSchema = {
-    ...(config.id ? { $id: config.id } : {}),
-    $schema: 'http://json-schema.org/draft-07/schema#',
-    definitions
-  };
-
-  return jsonSchema;
+  return "";
 }

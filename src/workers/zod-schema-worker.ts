@@ -1,7 +1,7 @@
 import { parentPort } from 'node:worker_threads';
 
 import { ZodConfig } from '../types';
-import { createZodSchema } from '../zod';
+import { createZodSchema } from '../zodv1';
 
 async function startZodSchema(config: ZodConfig) {
   try {

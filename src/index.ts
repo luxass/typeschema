@@ -8,9 +8,9 @@ import { writeFile } from './utils';
 
 export { JSONSchemaConfig, JSDocOptions, ZodConfig, TypeSchemaConfig } from './types';
 
-export * from './zod';
-export * from './json';
+export * from './zodv1';
 export * from './jsonschema';
+// export * from './zod';
 
 export async function createTypeSchema(config: TypeSchemaConfig) {
   const __dirname = path.dirname(fileURLToPath(import.meta.url));

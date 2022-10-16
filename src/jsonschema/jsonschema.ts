@@ -1,14 +1,14 @@
-import { globby } from 'globby';
 import path from 'node:path';
 import ts from 'typescript';
 
 import { DEFAULT_TSCONFIG, loadTSConfig } from '../config';
 import { info } from '../log';
+import { parseTypeScript } from '../parser';
 import { traverse } from '../traverse';
-import { JSONSchemaConfig, TypeSchemaNode, TypeSchemaParser } from '../types';
+import { JSONSchema, JSONSchemaConfig, TypeSchemaNodeV1, TypeSchemaParser } from '../types';
 import { getGlobby } from '../utils';
 
-export async function buildJSONSchema(config: JSONSchemaConfig): Promise<TypeSchemaParser> {
+export async function buildJSONSchema(config: JSONSchemaConfig): Promise<JSONSchema> {
   let tsconfig: ts.CompilerOptions;
   if (typeof config.tsconfig === 'string') {
     tsconfig = ts.parseJsonConfigFileContent(
@@ -36,7 +36,7 @@ export async function buildJSONSchema(config: JSONSchemaConfig): Promise<TypeSch
     .getSourceFiles()
     .filter((sourceFile) => rootFileNames.includes(sourceFile.fileName));
 
-  const rootNodes = new Map<string, TypeSchemaNode>();
+  const rootNodes = new Map<string, ts.NodeWithSourceFile>();
 
   for (const sourceFile of rootSourceFiles) {
     traverse({
@@ -49,16 +49,15 @@ export async function buildJSONSchema(config: JSONSchemaConfig): Promise<TypeSch
 
   const definitions = {};
 
-  Array.from(rootNodes.values()).forEach((node) => {
-    info('json', node.node.name.escapedText);
-  });
+  const nodes = Array.from(rootNodes.values());
+  const trees = parseTypeScript(nodes);
+  console.log(JSON.stringify(trees, null, 2));
 
-  return {
-    parse: () => {
-      return {
-        type: 'object',
-        properties: {}
-      };
-    }
+  const jsonSchema: JSONSchema = {
+    ...(config.id ? { $id: config.id } : {}),
+    $schema: 'http://json-schema.org/draft-07/schema#',
+    definitions
   };
+
+  return jsonSchema;
 }

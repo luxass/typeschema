@@ -1,12 +1,12 @@
 import ts from 'typescript';
 
 import { warn } from './log';
-import { JSDocOptions, PrettiedTags, TypeSchemaNode } from './types';
+import { JSDocOptions, PrettiedTags } from './types';
 import { getPrettyJSDoc } from './utils';
 
 interface TraverseOptions {
   node: ts.Node;
-  rootNodes: Map<string, TypeSchemaNode>;
+  rootNodes: Map<string, ts.NodeWithSourceFile>;
   sourceFile: ts.SourceFile;
   jsDocOptions: JSDocOptions;
 }
@@ -14,11 +14,12 @@ interface TraverseOptions {
 export function traverse({ node, rootNodes, sourceFile, jsDocOptions }: TraverseOptions) {
   const tagFilter = jsDocOptions.include
     ? (tags: PrettiedTags[]) =>
-        tags.map((tag) => tag.tag).includes(jsDocOptions.include || 'typeschema')
+        tags.map((tag) => tag.tagName).includes(jsDocOptions.include || 'typeschema')
     : () => true;
 
+  const tags = getPrettyJSDoc(node, sourceFile);
+
   if (ts.isEnumDeclaration(node)) {
-    const tags = getPrettyJSDoc(node, sourceFile);
     if (!tagFilter(tags)) return;
     rootNodes.set(node.name.text, {
       node,
@@ -28,10 +29,9 @@ export function traverse({ node, rootNodes, sourceFile, jsDocOptions }: Traverse
 
   if (ts.isInterfaceDeclaration(node) || ts.isTypeAliasDeclaration(node)) {
     if (node.typeParameters) {
-      warn('warning', `${node.name.escapedText} is not supported (generic)`);
+      warn('NOT SUPPORTED', `${node.name.escapedText} is not supported (generic)`);
       return;
     }
-    const tags = getPrettyJSDoc(node, sourceFile);
 
     if (!tagFilter(tags)) return;
     rootNodes.set(node.name.text, {
