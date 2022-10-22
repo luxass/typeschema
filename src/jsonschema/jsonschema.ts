@@ -28,7 +28,7 @@ export async function buildJSONSchema(config: JSONSchemaConfig): Promise<JSONSch
 
   const program = ts.createProgram({
     rootNames: inputFiles,
-    options: tsconfig
+    options: tsconfig,
   });
   const rootFileNames = program.getRootFileNames();
 
@@ -48,9 +48,8 @@ export async function buildJSONSchema(config: JSONSchemaConfig): Promise<JSONSch
   }
 
   const definitions = {};
-
   const nodes = Array.from(rootNodes.values());
-  const trees = parseTypeScript(nodes);
+  const trees = parseTypeScript(program, nodes);
   console.log(JSON.stringify(trees, null, 2));
 
   const jsonSchema: JSONSchema = {

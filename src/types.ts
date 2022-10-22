@@ -52,13 +52,20 @@ export interface JSONSchemaConfig extends SharedConfig {
   id?: string;
 }
 
-export interface TypeSchemaTree<Types = string> {
+export interface TypeSchemaTree<Types extends string = string> {
   name: string;
   type: Types;
   properties?: TypeSchemaTree<Types>[];
+  // Members are used on enums
+  members?: EnumMember[];
   // extends
   heritageClauses?: string[];
   annotations?: PrettiedTags[];
+}
+
+export interface EnumMember {
+  name: string;
+  value: string | number | undefined;
 }
 
 export interface Metadata {

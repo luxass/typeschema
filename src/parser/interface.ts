@@ -23,9 +23,21 @@ export function parseInterface(
   }
 
   const { properties, indexSignature } = parseMembers(node.members);
+  if (indexSignature) {
+    console.log(ts.SyntaxKind[indexSignature!.type.kind]);
+  }
+
+
+
 
   properties.forEach((property) => {
     if (!property.type) return;
+    console.log('kind', ts.SyntaxKind[property.type.kind]);
+
+    if (ts.isTypeLiteralNode(property.type) || ts.isTypeReferenceNode(property.type)) {
+      return;
+    }
+
     _properties.push({
       name: property.name.getText(sourceFile),
       type: getTypeName(property.type)
