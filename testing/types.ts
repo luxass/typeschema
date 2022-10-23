@@ -4,10 +4,13 @@
  */
 interface MyFirstSchema {
   users: User[]; // Array<User>
+  thisIsOptional?: string;
 }
 
 interface GG {
-  [key: string]: any;
+  [key: string]: {
+    aa: string;
+  };
 }
 
 interface AAA {}

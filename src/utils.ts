@@ -159,6 +159,8 @@ export function getTypeName(node: ts.Node) {
       return 'enum';
     case ts.SyntaxKind.FunctionType:
       return 'function';
+    case ts.SyntaxKind.TypeReference:
+    case ts.SyntaxKind.TypeLiteral:
     case ts.SyntaxKind.ObjectKeyword:
     case ts.SyntaxKind.InterfaceKeyword:
       return 'object';
@@ -168,6 +170,6 @@ export function getTypeName(node: ts.Node) {
     case ts.SyntaxKind.StringLiteral:
       return 'string';
     default:
-      throw new TypeError(`Unknown type: ${node.getText()}`);
+      throw new TypeError(`Unknown type: ${node.getText()}, SyntaxKind[${node.kind}]=${ts.SyntaxKind[node.kind]}`);
   }
 }

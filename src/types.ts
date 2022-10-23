@@ -61,7 +61,10 @@ export interface TypeSchemaTree<Types extends string = string> {
   // extends
   heritageClauses?: string[];
   annotations?: PrettiedTags[];
-  optional?: boolean;
+  required?: boolean;
+  additionalProperties?: boolean;
+  // Array
+  items?: Omit<TypeSchemaTree<Types>, 'name'>;
 }
 
 export interface EnumMember {

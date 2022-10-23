@@ -23,34 +23,69 @@ export function parseInterface(
   }
 
   const { properties, indexSignature } = parseMembers(node.members);
-  console.log('GDFGDFGDFG', node.name.getText(sourceFile));
-
-  if (indexSignature) {
-    console.log(ts.SyntaxKind[indexSignature!.type.kind]);
-  }
-
-  console.log('LENGTH', properties.length);
 
   properties.forEach((property) => {
     if (!property.type) return;
-    if (ts.isTypeLiteralNode(property.type)) {
-      _properties.push(parseTypeLiteral(property.type));
-      return;
+    const typeName = getTypeName(property.type);
+    const annotations = getPrettyJSDoc(property, sourceFile);
+
+    switch (property.type.kind) {
+      case ts.SyntaxKind.TypeReference:
+        _properties.push({
+          name: property.name.getText(sourceFile),
+          type: typeName,
+          annotations
+        });
+        break;
+      case ts.SyntaxKind.ArrayType:
+        _properties.push({
+          name: property.name.getText(sourceFile),
+          type: typeName,
+          annotations,
+          items: {
+            // Should use the ref to the type.
+            type: getTypeName((property.type as ts.ArrayTypeNode).elementType)
+          }
+        });
+        break;
+      // case ts.SyntaxKind.UnionType:
+      //   const unionType = getTypeName(property.type);
+      //   const unionAnnotations = getPrettyJSDoc(property.node, sourceFile);
+      //   _properties.push({
+      //     name: property.name,
+      //     type: 'union',
+      //     unionType,
+      //     annotations: unionAnnotations
+      //   });
+      //   break;
+      case ts.SyntaxKind.TypeLiteral:
+        _properties.push({
+          name: property.name.getText(sourceFile),
+          type: typeName,
+          annotations
+        });
+        break;
+      default:
+        warn('WARNING', `Unknown type: ${node.getText()}, SyntaxKind[${node.kind}]=${ts.SyntaxKind[node.kind]}`);
     }
+    // if (ts.isTypeLiteralNode(property.type)) {
+    //   _properties.push(parseTypeLiteral(property.type));
+    //   return;
+    // }
 
-    if (ts.isTypeReferenceNode(property.type)) {
-      _properties.push(parseTypeReference(property.type, sourceFile));
-      return;
-    }
+    // if (ts.isTypeReferenceNode(property.type)) {
+    //   _properties.push(parseTypeReference(property.type, sourceFile));
+    //   return;
+    // }
 
-    const name = property.name.getText(sourceFile);
+    // const name = property.name.getText(sourceFile);
 
-    _properties.push({
-      name,
-      type: getTypeName(property.type),
-      optional: !!property.questionToken
-      // additionalProperties: false
-    });
+    // _properties.push({
+    //   name,
+    //   type: getTypeName(property.type),
+    //   required: !!property.questionToken,
+    //   additionalProperties: false
+    // });
   });
 
   return {
@@ -58,12 +93,12 @@ export function parseInterface(
     type: 'object',
     properties: _properties,
     heritageClauses,
-    annotations: getPrettyJSDoc(node, sourceFile)
+    annotations: getPrettyJSDoc(node, sourceFile),
+    additionalProperties: Boolean(indexSignature)
   };
 }
 
 export function parseTypeLiteral(typeNode: ts.TypeLiteralNode): TypeSchemaTree {
-  
   return {
     name: '',
     type: 'object',

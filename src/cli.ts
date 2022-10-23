@@ -22,6 +22,7 @@ program
       if (!data || !path) {
         throw new Error('Could not load config');
       }
+      config = data;
       await createTypeSchema(config);
     } catch (e) {
       console.error(e);
