@@ -14,6 +14,7 @@ export function getZodSchema(
   sourceFile: ts.SourceFile,
   config: ZodConfig
 ): {
+  imports: string[]
   dependencies: string[];
   schema: ts.VariableStatement;
 } {
@@ -68,6 +69,7 @@ export function getZodSchema(
   }
 
   return {
+    imports: [],
     dependencies: [...new Set(dependencies)],
     schema: factory.createVariableStatement(
       node.modifiers,

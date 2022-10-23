@@ -38,18 +38,21 @@ const jsonLoader = {
 joycon.addLoader(jsonLoader);
 
 export async function loadTypeSchemaConfig(
-  cwd: string
+  cwd: string,
+  configFile?: string
 ): Promise<{ path?: string; data?: ReturnType<typeof defineConfig> }> {
   const configJoycon = new JoyCon();
   const configPath = await configJoycon.resolve({
-    files: [
-      'typeschema.config.ts',
-      'typeschema.config.js',
-      'typeschema.config.cjs',
-      'typeschema.config.mjs',
-      'typeschema.config.json',
-      'package.json'
-    ],
+    files: configFile
+      ? [configFile]
+      : [
+          'typeschema.config.ts',
+          'typeschema.config.js',
+          'typeschema.config.cjs',
+          'typeschema.config.mjs',
+          'typeschema.config.json',
+          'package.json'
+        ],
     cwd,
     stopDir: path.parse(cwd).root,
     packageKey: 'typeschema'

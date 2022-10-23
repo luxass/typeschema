@@ -1,42 +1,34 @@
-// /**
-// * @typeschema-jsonschema-properties
-// * @type1 {number[]}
-// * @type2 {Array.<number>}
-// * @type3 {Array<number>}
-// * @type1 {number[]}
-// * @type2 {Array.<number>}
-// * @type3 {Array<number>}
-// */
-// interface MyFirstSchema {
-//   users: User[]; // Array<User>
-// }
+/**
+ * @typeschema
+ * @jsonschema-ref
+ */
+interface MyFirstSchema {
+  users: User[]; // Array<User>
+}
 
-// /**
-//  * @typeschema
-//  * @jsonschema-properties
-//  * @type1 {number[]}
-//  * @type2 {Array.<number>}
-//  * @type3 {Array<number>}
-//  * @type1 {number[]}
-//  * @type2 {Array.<number>}
-//  * @type3 {Array<number>}
-//  */
-// interface User extends A {
-//   name: string;
-//   age: number;
-//   aaa: {
-//     bbb: string;
-//   }
-//   aaaa: {
-//     bbb: string;
-//   }[]
-//   bbb: A
-// }
+interface GG {
+  [key: string]: any;
+}
 
-// interface A {
-//   [key: string]: any;
-//   a: string;
-// }
+interface AAA {}
+
+interface User /*extends A*/ {
+  name: string;
+  age: number;
+  lol?: string;
+  aaa?: {
+    bbb: string;
+  };
+  aaaa: {
+    bbb: string;
+  }[];
+  a: A;
+}
+
+interface A {
+  [key: string]: any;
+  a: string;
+}
 
 // enum Test {
 //   A = 'a',
@@ -57,6 +49,9 @@
 enum FileAccess {
   // constant members
   None,
+  /**
+   * @typeschema
+   */
   AA,
   GG,
   Read = 1 << 1,
@@ -66,6 +61,5 @@ enum FileAccess {
   G = '123'.length,
   A = 'true'.length,
   Q = ([].length as any).length,
-  AAAA = ([])[0]
+  AAAA = [][0]
 }
-

@@ -1,11 +1,12 @@
 import { parentPort } from 'node:worker_threads';
 
 import { ZodConfig } from '../types';
-import { createZodSchema } from '../zodv1';
+import { buildZodSchema } from "../zod";
+// import { createZodSchema } from '../zodv1';
 
 async function startZodSchema(config: ZodConfig) {
   try {
-    const schema = await createZodSchema(config);
+    const schema = await buildZodSchema(config);
     parentPort?.postMessage({
       type: 'success',
       data: schema

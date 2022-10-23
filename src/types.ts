@@ -61,6 +61,7 @@ export interface TypeSchemaTree<Types extends string = string> {
   // extends
   heritageClauses?: string[];
   annotations?: PrettiedTags[];
+  optional?: boolean;
 }
 
 export interface EnumMember {
@@ -126,7 +127,6 @@ export interface JSONSchemaObject {
 }
 
 export interface JSONSchemaArray extends Array<JSONSchemaPrimitive> {}
-
 export type JSONSchemaDefinition = JSONSchema | boolean;
 
 export interface JSONSchema {
@@ -140,24 +140,20 @@ export interface JSONSchema {
   type?: JSONSchemaPrimitiveName | JSONSchemaPrimitiveName[];
   enum?: JSONSchemaPrimitive[];
   const?: JSONSchemaPrimitive;
-
   multipleOf?: number;
   maximum?: number;
   exclusiveMaximum?: number;
   minimum?: number;
   exclusiveMinimum?: number;
-
   maxLength?: number;
   minLength?: number;
   pattern?: string;
-
   items?: JSONSchemaDefinition | JSONSchemaDefinition[];
   additionalItems?: JSONSchemaDefinition;
   maxItems?: number;
   minItems?: number;
   uniqueItems?: boolean;
   contains?: JSONSchema;
-
   maxProperties?: number;
   minProperties?: number;
   required?: string[];
@@ -172,25 +168,19 @@ export interface JSONSchema {
     [key: string]: JSONSchemaDefinition | string[];
   };
   propertyNames?: JSONSchemaDefinition;
-
   if?: JSONSchemaDefinition;
   then?: JSONSchemaDefinition;
   else?: JSONSchemaDefinition;
-
   allOf?: JSONSchemaDefinition[];
   anyOf?: JSONSchemaDefinition[];
   oneOf?: JSONSchemaDefinition[];
   not?: JSONSchemaDefinition;
-
   format?: string;
-
   contentMediaType?: string;
   contentEncoding?: string;
-
   definitions?: {
     [key: string]: JSONSchemaDefinition;
   };
-
   title?: string;
   description?: string;
   default?: JSONSchemaPrimitive;
@@ -200,8 +190,6 @@ export interface JSONSchema {
 }
 
 export interface TypeSchemaParser {}
-
-export interface TypeSchemaNode {}
 
 declare module 'typescript' {
   interface NodeWithSourceFile<NodeType = ts.Node> {

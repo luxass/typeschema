@@ -1,6 +1,6 @@
 import { TypeSchemaNode } from '../../types';
 
-export function parseObject(): TypeSchemaNode {
+export function writeBoolean(): TypeSchemaNode {
   return {
     type: 'boolean'
   };

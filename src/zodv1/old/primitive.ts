@@ -16,6 +16,8 @@ export function buildPrimitive(
   typeNode: ts.TypeNode,
   metadata: Metadata
 ): ts.CallExpression | ts.Identifier | ts.PropertyAccessExpression {
+  console.log('̈́WERWERWERWERWE', ts.SyntaxKind[typeNode.kind]);
+
   const zodProperties: ZodProperty[] = getPropertiesFromTags(metadata.tags || [], metadata);
 
   if (ts.isParenthesizedTypeNode(typeNode)) {

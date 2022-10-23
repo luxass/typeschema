@@ -23,24 +23,32 @@ export function parseInterface(
   }
 
   const { properties, indexSignature } = parseMembers(node.members);
+  console.log('GDFGDFGDFG', node.name.getText(sourceFile));
+
   if (indexSignature) {
     console.log(ts.SyntaxKind[indexSignature!.type.kind]);
   }
 
-
-
+  console.log('LENGTH', properties.length);
 
   properties.forEach((property) => {
     if (!property.type) return;
-    console.log('kind', ts.SyntaxKind[property.type.kind]);
-
-    if (ts.isTypeLiteralNode(property.type) || ts.isTypeReferenceNode(property.type)) {
+    if (ts.isTypeLiteralNode(property.type)) {
+      _properties.push(parseTypeLiteral(property.type));
       return;
     }
 
+    if (ts.isTypeReferenceNode(property.type)) {
+      _properties.push(parseTypeReference(property.type, sourceFile));
+      return;
+    }
+
+    const name = property.name.getText(sourceFile);
+
     _properties.push({
-      name: property.name.getText(sourceFile),
-      type: getTypeName(property.type)
+      name,
+      type: getTypeName(property.type),
+      optional: !!property.questionToken
       // additionalProperties: false
     });
   });
@@ -51,5 +59,27 @@ export function parseInterface(
     properties: _properties,
     heritageClauses,
     annotations: getPrettyJSDoc(node, sourceFile)
+  };
+}
+
+export function parseTypeLiteral(typeNode: ts.TypeLiteralNode): TypeSchemaTree {
+  
+  return {
+    name: '',
+    type: 'object',
+    properties: []
+  };
+}
+
+export function parseTypeReference(
+  typeNode: ts.TypeReferenceNode,
+  sourceFile: ts.SourceFile
+): TypeSchemaTree {
+  const identifierName = typeNode.typeName.getText(sourceFile);
+
+  return {
+    name: identifierName,
+    type: 'object',
+    properties: []
   };
 }

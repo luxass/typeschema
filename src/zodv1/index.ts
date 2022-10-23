@@ -6,8 +6,8 @@ import ts from 'typescript';
 import { DEFAULT_TSCONFIG, loadTSConfig } from '../config';
 import { traverse } from '../traverse';
 import { TypeSchemaNodeV1, ZodConfig } from '../types';
-// import { getZodSchema } from './old';
-import { getZodSchema } from './schema';
+import { getZodSchema } from './old';
+//import { getZodSchema } from './schema';
 
 interface ZodSchema {
   name: string;
@@ -60,8 +60,8 @@ export async function createZodSchema(config: ZodConfig): Promise<string> {
 
   let schemas: ZodSchema[] = [...rootNodes.values()].map((schemaNode) => ({
     name: schemaNode.node.name.text,
-    ...getZodSchema(schemaNode.node, schemaNode.sourceFile, config)
-    // ...getZodSchema(schemaNode.node, schemaNode.node.name.text, schemaNode.sourceFile, config)
+    //...getZodSchema(schemaNode.node, schemaNode.sourceFile, config)
+    ...getZodSchema(schemaNode.node, schemaNode.node.name.text, schemaNode.sourceFile, config)
   }));
 
   schemas = hoistSchemas(schemas);
@@ -83,26 +83,6 @@ export async function createZodSchema(config: ZodConfig): Promise<string> {
 
   return `${print(bannerText)}\nimport { z } from 'zod';\n\n${thirdPartyImports}\n\n${zodSchemas}`;
 }
-
-async function startZodSchema(config: ZodConfig) {
-  try {
-    const schema = await createZodSchema(config);
-    parentPort?.postMessage({
-      type: 'success',
-      data: schema
-    });
-  } catch (error) {
-    parentPort?.postMessage({
-      type: 'error',
-      data: error.message
-    });
-  }
-  parentPort?.close();
-}
-
-parentPort?.on('message', (data: ZodConfig) => {
-  startZodSchema(data);
-});
 
 function hoistSchemas(schemas: ZodSchema[]): ZodSchema[] {
   return schemas;

@@ -1,6 +1,6 @@
 import { TypeSchemaNode } from '../../types';
 
-export function parseString(): TypeSchemaNode {
+export function writeString(): TypeSchemaNode {
   return {
     type: 'string'
   };

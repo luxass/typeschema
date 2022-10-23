@@ -41,3 +41,7 @@ array -> array
 enum -> enum
 
 ```
+
+# TAGS
+
+jsonschema-ref - Sets top level ref

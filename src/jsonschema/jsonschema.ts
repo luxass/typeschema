@@ -7,6 +7,7 @@ import { parseTypeScript } from '../parser';
 import { traverse } from '../traverse';
 import { JSONSchema, JSONSchemaConfig, TypeSchemaNodeV1, TypeSchemaParser } from '../types';
 import { getGlobby } from '../utils';
+import { writeJSONSchema } from "./writer";
 
 export async function buildJSONSchema(config: JSONSchemaConfig): Promise<JSONSchema> {
   let tsconfig: ts.CompilerOptions;
@@ -47,14 +48,19 @@ export async function buildJSONSchema(config: JSONSchemaConfig): Promise<JSONSch
     });
   }
 
-  const definitions = {};
   const nodes = Array.from(rootNodes.values());
   const trees = parseTypeScript(program, nodes);
-  console.log(JSON.stringify(trees, null, 2));
+
+  console.log('SCHEMA', JSON.stringify(trees, null, 2));
+
+  const definitions = writeJSONSchema(trees);
+
+  const topLevelRef = trees.find((tree) => tree.annotations?.find((annotation) => annotation.tagName === 'jsonschema-ref'))?.name;
 
   const jsonSchema: JSONSchema = {
     ...(config.id ? { $id: config.id } : {}),
     $schema: 'http://json-schema.org/draft-07/schema#',
+    ...(topLevelRef ? { $ref: `#/definitions/${topLevelRef}` } : {}),
     definitions
   };
 

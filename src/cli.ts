@@ -1,25 +1,28 @@
 #!/usr/bin/env node
-import { program } from 'commander';
+import { Option, program } from 'commander';
 
-import { createTypeSchema } from '.';
+import { TypeSchemaConfig, createTypeSchema } from '.';
 import { loadTypeSchemaConfig } from './config';
 
 declare global {
   const __VERSION__: string;
 }
 
+// TODO: Add zod and jsonschema options to CLI.
 program
   .name('typeschema')
   .version(__VERSION__)
   .option('-c, --config <path>', 'path to config file')
+
   .action(async () => {
     const opts = program.opts();
+    let config: TypeSchemaConfig = {};
     try {
-      const config = await loadTypeSchemaConfig(opts.config || process.cwd());
-      if (!config.data || !config.path) {
+      const { path, data } = await loadTypeSchemaConfig(process.cwd(), opts.config);
+      if (!data || !path) {
         throw new Error('Could not load config');
       }
-      await createTypeSchema(config.data);
+      await createTypeSchema(config);
     } catch (e) {
       console.error(e);
     }
