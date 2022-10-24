@@ -64,7 +64,9 @@ export interface TypeSchemaTree<Types extends string = string> {
   required?: boolean;
   additionalProperties?: boolean;
   // Array
-  items?: Omit<TypeSchemaTree<Types>, 'name'>;
+  items?: Omit<TypeSchemaTree<Types>, 'name'> & {
+    $ref?: string;
+  };
 }
 
 export interface EnumMember {

@@ -26,66 +26,55 @@ export function parseInterface(
 
   properties.forEach((property) => {
     if (!property.type) return;
-    const typeName = getTypeName(property.type);
+    const typeName = getTypeName(property.type, sourceFile);
+    const name = property.name.getText(sourceFile);
     const annotations = getPrettyJSDoc(property, sourceFile);
+    const required = !property.questionToken;
+    console.log('property', ts.SyntaxKind[property.type.kind], name);
 
     switch (property.type.kind) {
-      case ts.SyntaxKind.TypeReference:
-        _properties.push({
-          name: property.name.getText(sourceFile),
-          type: typeName,
-          annotations
-        });
-        break;
       case ts.SyntaxKind.ArrayType:
         _properties.push({
-          name: property.name.getText(sourceFile),
+          name,
           type: typeName,
-          annotations,
           items: {
-            // Should use the ref to the type.
-            type: getTypeName((property.type as ts.ArrayTypeNode).elementType)
-          }
+            $ref: (property.type as ts.ArrayTypeNode).elementType.getText(),
+            type: getTypeName((property.type as ts.ArrayTypeNode).elementType, sourceFile)
+          },
+          annotations,
+          required
         });
-        break;
-      // case ts.SyntaxKind.UnionType:
-      //   const unionType = getTypeName(property.type);
-      //   const unionAnnotations = getPrettyJSDoc(property.node, sourceFile);
-      //   _properties.push({
-      //     name: property.name,
-      //     type: 'union',
-      //     unionType,
-      //     annotations: unionAnnotations
-      //   });
-      //   break;
+        return;
       case ts.SyntaxKind.TypeLiteral:
-        _properties.push({
-          name: property.name.getText(sourceFile),
+      case ts.SyntaxKind.TypeReference:
+        if (typeName === 'array') {
+          const typeArguments = (property.type as ts.TypeReferenceNode).typeArguments ?? [];
+
+          return _properties.push({
+            name,
+            type: typeName,
+            items: {
+              $ref: typeArguments[0].getText(),
+              type: getTypeName(typeArguments[0], sourceFile)
+            },
+            annotations,
+            required
+          });
+        }
+        return _properties.push({
+          name,
           type: typeName,
+          required,
           annotations
         });
-        break;
-      default:
-        warn('WARNING', `Unknown type: ${node.getText()}, SyntaxKind[${node.kind}]=${ts.SyntaxKind[node.kind]}`);
     }
-    // if (ts.isTypeLiteralNode(property.type)) {
-    //   _properties.push(parseTypeLiteral(property.type));
-    //   return;
-    // }
 
-    // if (ts.isTypeReferenceNode(property.type)) {
-    //   _properties.push(parseTypeReference(property.type, sourceFile));
-    //   return;
-    // }
-
-    // const name = property.name.getText(sourceFile);
-
-    // _properties.push({
-    //   name,
-    //   type: getTypeName(property.type),
-    //   required: !!property.questionToken,
-    //   additionalProperties: false
-    // });
+    _properties.push({
+      name,
+      type: typeName,
+      annotations,
+      required
+    });
   });
 
   return {
@@ -95,26 +84,5 @@ export function parseInterface(
     heritageClauses,
     annotations: getPrettyJSDoc(node, sourceFile),
     additionalProperties: Boolean(indexSignature)
-  };
-}
-
-export function parseTypeLiteral(typeNode: ts.TypeLiteralNode): TypeSchemaTree {
-  return {
-    name: '',
-    type: 'object',
-    properties: []
-  };
-}
-
-export function parseTypeReference(
-  typeNode: ts.TypeReferenceNode,
-  sourceFile: ts.SourceFile
-): TypeSchemaTree {
-  const identifierName = typeNode.typeName.getText(sourceFile);
-
-  return {
-    name: identifierName,
-    type: 'object',
-    properties: []
   };
 }

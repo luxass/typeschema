@@ -3,7 +3,8 @@
  * @jsonschema-ref
  */
 interface MyFirstSchema {
-  users: User[]; // Array<User>
+  users: User[];
+  users2: Array<User>;
   thisIsOptional?: string;
 }
 
