@@ -13,7 +13,7 @@ export default defineConfig({
   //   }
   // },
   jsonschema: {
-    input: ['testing/*.ts'],
+    input: ['testing/test2.ts'],
     outputDir: '.out',
     tsconfig: 'tsconfig.json',
     jsdoc: {

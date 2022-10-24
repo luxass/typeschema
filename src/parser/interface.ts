@@ -1,7 +1,7 @@
 import ts from 'typescript';
 
 import { warn } from '../log';
-import { TypeSchemaTree } from '../types';
+import { PrettiedTags, TypeSchemaTree } from '../types';
 import { getPrettyJSDoc, getTypeName, parseMembers } from '../utils';
 
 export function parseInterface(
@@ -34,6 +34,41 @@ export function parseInterface(
 
     switch (property.type.kind) {
       case ts.SyntaxKind.ArrayType:
+        const elementType = (property.type as ts.ArrayTypeNode).elementType;
+        if (ts.isTypeLiteralNode(elementType)) {
+          const { properties: memberProperties, indexSignature } = parseMembers(
+            elementType.members
+          );
+          const properties = memberProperties
+            .map((property) => {
+              if (!property.type) return;
+              const typeName = getTypeName(property.type, sourceFile);
+              const name = property.name.getText(sourceFile);
+              const annotations = getPrettyJSDoc(property, sourceFile);
+              const required = !property.questionToken;
+              return {
+                name,
+                type: typeName,
+                annotations,
+                required
+              };
+            })
+            .filter(Boolean);
+          return _properties.push({
+            name,
+            type: typeName,
+            annotations,
+            required,
+            items: {
+              type: 'object',
+              properties: properties as TypeSchemaTree[]
+            }
+          });
+        }
+
+        if (ts.isTypeReferenceNode(elementType)) {
+          console.log('ARRAY TYPE REFERENCE');
+        }
         _properties.push({
           name,
           type: typeName,
@@ -46,10 +81,24 @@ export function parseInterface(
         });
         return;
       case ts.SyntaxKind.TypeLiteral:
+        if (typeName === 'array') {
+          return _properties.push({
+            name,
+            type: typeName,
+            annotations,
+            required
+          });
+        }
+        return _properties.push({
+          name,
+          type: typeName,
+          required,
+          annotations
+        });
+
       case ts.SyntaxKind.TypeReference:
         if (typeName === 'array') {
           const typeArguments = (property.type as ts.TypeReferenceNode).typeArguments ?? [];
-
           return _properties.push({
             name,
             type: typeName,
