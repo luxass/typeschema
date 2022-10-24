@@ -70,6 +70,7 @@ export interface TypeSchemaTree<Types extends string = string> {
 export interface EnumMember {
   name: string;
   value: string | number | undefined;
+  annotations: PrettiedTags[];
 }
 
 export interface Metadata {

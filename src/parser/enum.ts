@@ -1,4 +1,5 @@
 import ts from 'typescript';
+
 import { EnumMember, TypeSchemaTree } from '../types';
 import { getPrettyJSDoc } from '../utils';
 
@@ -13,11 +14,12 @@ export function parseEnum(
   node.members.forEach((member) => {
     const name = member.name.getText(sourceFile);
     const constantValue = typeChecker.getConstantValue(member);
-
+    const annotations = getPrettyJSDoc(member, sourceFile);
     if (constantValue !== undefined) {
       _members.push({
         name: name,
-        value: constantValue
+        value: constantValue,
+        annotations
       });
       return;
     }
@@ -25,12 +27,14 @@ export function parseEnum(
     if (!member.initializer) {
       _members.push({
         name: name,
-        value: _members.length
+        value: _members.length,
+        annotations
       });
     } else {
       _members.push({
         name: name,
-        value: parseInitializer(member.initializer)
+        value: parseInitializer(member.initializer),
+        annotations
       });
     }
   });
