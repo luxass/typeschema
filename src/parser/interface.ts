@@ -99,12 +99,44 @@ export function parseInterface(
       case ts.SyntaxKind.TypeReference:
         if (typeName === 'array') {
           const typeArguments = (property.type as ts.TypeReferenceNode).typeArguments ?? [];
+          const refType = typeArguments[0];
+          if (ts.isTypeLiteralNode(refType)) {
+            const { properties: memberProperties, indexSignature } = parseMembers(
+              refType.members
+            );
+            const properties = memberProperties
+              .map((property) => {
+                if (!property.type) return;
+                const typeName = getTypeName(property.type, sourceFile);
+                const name = property.name.getText(sourceFile);
+                const annotations = getPrettyJSDoc(property, sourceFile);
+                const required = !property.questionToken;
+                return {
+                  name,
+                  type: typeName,
+                  annotations,
+                  required
+                };
+              })
+              .filter(Boolean);
+            return _properties.push({
+              name,
+              type: typeName,
+              items: {
+                type: getTypeName(refType, sourceFile),
+                properties: properties as TypeSchemaTree[]
+              },
+              annotations,
+              required
+            })
+          }
+
+
           return _properties.push({
             name,
             type: typeName,
             items: {
-              $ref: typeArguments[0].getText(),
-              type: getTypeName(typeArguments[0], sourceFile)
+              type: getTypeName(refType, sourceFile)
             },
             annotations,
             required

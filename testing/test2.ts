@@ -5,8 +5,12 @@ interface User /*extends A*/ {
   aaa?: {
     bbb: string;
   };
+  bbbbb: Array<string>;
   aaaa: {
     bbb: string;
   }[];
+  aaaaa: Array<{
+    bbb: string;
+  }>;
   a: A;
 }
