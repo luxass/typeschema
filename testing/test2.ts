@@ -13,4 +13,11 @@ interface User /*extends A*/ {
     bbb: string;
   }>;
   a: A;
+  test?: Test
+}
+
+type Test = string
+
+interface A {
+  a: string;
 }

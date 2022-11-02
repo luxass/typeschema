@@ -25,7 +25,7 @@ export function parseTypeScript(
     }
 
     if (ts.isTypeAliasDeclaration(node.node)) {
-      throw new TypeError('Type alias declarations are not supported!');
+      // throw new TypeError('Type alias declarations are not supported!');
     }
 
     if (ts.isEnumDeclaration(node.node)) {

@@ -145,6 +145,7 @@ export function parseInterface(
         return _properties.push({
           name,
           type: typeName,
+          $ref: (property.type as ts.TypeReferenceNode).typeName.getText(sourceFile),
           required,
           annotations
         });

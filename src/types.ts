@@ -62,6 +62,9 @@ export interface TypeSchemaTree<Types extends string = string> {
   heritageClauses?: string[];
   annotations?: PrettiedTags[];
   required?: boolean;
+  // Type Reference Node
+  // When used inside the writer, it includes #/definitions/...
+  $ref?: string;
   additionalProperties?: boolean;
   // Array
   items?: Omit<TypeSchemaTree<Types>, 'name'> & {
