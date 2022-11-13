@@ -1,3 +1,4 @@
+import { writeFile } from "node:fs/promises";
 import path from 'node:path';
 import ts from 'typescript';
 
@@ -51,8 +52,8 @@ export async function buildJSONSchema(config: JSONSchemaConfig): Promise<JSONSch
   const nodes = Array.from(rootNodes.values());
   const trees = parseTypeScript(program, nodes);
 
-  console.log('SCHEMA', JSON.stringify(trees, null, 2));
-
+  // console.log('SCHEMA', JSON.stringify(trees, null, 2));
+  await writeFile('.out/trees.json', JSON.stringify(trees, null, 2));
   const definitions = writeJSONSchema(trees);
 
   const topLevelRef = trees.find((tree) => tree.annotations?.find((annotation) => annotation.tagName === 'jsonschema-ref'))?.name;

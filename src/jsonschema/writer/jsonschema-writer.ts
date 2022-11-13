@@ -13,10 +13,19 @@ export function writeJSONSchema(trees: TypeSchemaTree[]): JSONSchemaDefinitions 
         definitions[name] = writeObject(tree);
         break;
       case 'string':
+        definitions[name] = {
+          type: 'string'
+        };
         break;
       case 'number':
+        definitions[name] = {
+          type: 'number'
+        };
         break;
       case 'boolean':
+        definitions[name] = {
+          type: 'boolean'
+        };
         break;
     }
 

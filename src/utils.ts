@@ -143,17 +143,13 @@ export function parseMembers(members: ts.NodeArray<ts.TypeElement>) {
 }
 
 export function getTypeName(node: ts.Node, sourceFile: ts.SourceFile) {
-  // JS PLEASE, i beg you make this possible
+  // PLEASE, i beg you make this possible
   // return switch(node.kind) {
   //   case ts.SyntaxKind.AbstractKeyword => 'abstract'
   //   default => 'unknown'
   // }
   switch (node.kind) {
     case ts.SyntaxKind.TypeReference:
-      console.log('TYPE REFERENCE');
-      console.log((node as ts.TypeReferenceNode).typeName.getText(sourceFile));
-
-
       const typeName = (node as ts.TypeReferenceNode).typeName.getText(sourceFile);
       if (typeName === 'Array') {
         return 'array';

@@ -16,7 +16,8 @@ interface User /*extends A*/ {
   test?: Test
 }
 
-type Test = string
+type Test = string;
+type B = Test;
 
 interface A {
   a: string;
