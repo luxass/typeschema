@@ -1,6 +1,6 @@
-import ts from 'typescript';
+import ts, { Identifier } from 'typescript';
 
-import { warn } from './log';
+import { debug, warn } from './log';
 import { JSDocOptions, PrettiedTags } from './types';
 import { getPrettyJSDoc } from './utils';
 
@@ -19,22 +19,22 @@ export function traverse({ node, rootNodes, sourceFile, jsDocOptions }: Traverse
 
   const tags = getPrettyJSDoc(node, sourceFile);
 
-  if (ts.isEnumDeclaration(node)) {
-    if (!tagFilter(tags)) return;
-    rootNodes.set(node.name.text, {
-      node,
-      sourceFile
-    });
-  }
+  if (!tagFilter(tags)) return;
 
-  if (ts.isInterfaceDeclaration(node) || ts.isTypeAliasDeclaration(node)) {
-    if (node.typeParameters) {
-      warn('NOT SUPPORTED', `${node.name.escapedText} is not supported (generic)`);
+  if ('name' in node) {
+    const identifier = node.name as Identifier;
+    if (typeof identifier === 'undefined') {
+      debug(`Node has no name.`);
       return;
     }
+    if (!identifier.text) {
+      debug(`Node has no text`);
+      return;
+    }
+    const name = identifier.getText(sourceFile);
+    console.log(`Found node with name: ${name}`);
 
-    if (!tagFilter(tags)) return;
-    rootNodes.set(node.name.text, {
+    rootNodes.set(name, {
       node,
       sourceFile
     });

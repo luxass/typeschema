@@ -1,11 +1,11 @@
 import { parentPort } from 'node:worker_threads';
 
 import { buildJSONSchema } from '../jsonschema/jsonschema';
-import { JSONSchemaConfig } from '../types';
+import { JSONSchemaConfig, TypeSchemaTree } from '../types';
 
-async function startJSONSchema(config: JSONSchemaConfig) {
+async function startJSONSchema(trees: TypeSchemaTree[]) {
   try {
-    const schema = await buildJSONSchema(config);
+    const schema = await buildJSONSchema(trees);
     parentPort?.postMessage({
       type: 'success',
       data: schema
@@ -19,6 +19,6 @@ async function startJSONSchema(config: JSONSchemaConfig) {
   parentPort?.close();
 }
 
-parentPort?.on('message', (data: JSONSchemaConfig) => {
+parentPort?.on('message', (data: TypeSchemaTree[]) => {
   startJSONSchema(data);
 });

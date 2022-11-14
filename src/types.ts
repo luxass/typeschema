@@ -1,8 +1,19 @@
-import ts from 'typescript';
+import ts, { SyntaxKind } from 'typescript';
 
 export interface TypeSchemaConfig {
+  plugins?: TypeSchemaPlugin[];
   zod?: ZodConfig;
   jsonschema?: JSONSchemaConfig;
+
+  /**
+   * TypeScript options.
+   */
+  tsconfig?: string | ts.CompilerOptions;
+
+  /**
+   * JSDoc options.
+   */
+  jsdoc?: JSDocOptions;
 }
 
 interface SharedConfig {
@@ -20,16 +31,6 @@ interface SharedConfig {
    * Include exports in the output.
    */
   includeExports?: boolean;
-
-  /**
-   * JSDoc options.
-   */
-  jsdoc?: JSDocOptions;
-
-  /**
-   * TypeScript options.
-   */
-  tsconfig?: string | ts.CompilerOptions;
 }
 
 export interface ZodConfig extends SharedConfig {
@@ -206,3 +207,16 @@ declare module 'typescript' {
     sourceFile: ts.SourceFile;
   }
 }
+
+export interface TypeSchemaPlugin {
+  name: string;
+  setup(ctx: PluginContext): void | Promise<void>;
+}
+
+type Writers = 'zod' | 'jsonschema';
+// TODO: Add typesafety to this.
+type Node = string;
+export interface PluginContext {
+  register(kind: SyntaxKind): void;
+}
+

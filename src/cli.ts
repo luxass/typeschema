@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { Option, program } from 'commander';
 
-import { TypeSchemaConfig, createTypeSchema } from '.';
+import { TypeSchemaConfig, createTypeSchema, runTypeSchema } from '.';
 import { loadTypeSchemaConfig } from './config';
 
 declare global {
@@ -23,7 +23,8 @@ program
         throw new Error('Could not load config');
       }
       config = data;
-      await createTypeSchema(config);
+      await runTypeSchema(config)
+      // await createTypeSchema(config);
     } catch (e) {
       console.error(e);
     }

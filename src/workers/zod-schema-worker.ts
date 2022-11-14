@@ -1,12 +1,13 @@
 import { parentPort } from 'node:worker_threads';
 
-import { ZodConfig } from '../types';
-import { buildZodSchema } from "../zod";
+import { TypeSchemaTree, ZodConfig } from '../types';
+import { buildZodSchema } from '../zod';
+
 // import { createZodSchema } from '../zodv1';
 
-async function startZodSchema(config: ZodConfig) {
+async function startZodSchema(trees: TypeSchemaTree[]) {
   try {
-    const schema = await buildZodSchema(config);
+    const schema = await buildZodSchema(trees);
     parentPort?.postMessage({
       type: 'success',
       data: schema
@@ -20,6 +21,6 @@ async function startZodSchema(config: ZodConfig) {
   parentPort?.close();
 }
 
-parentPort?.on('message', (data: ZodConfig) => {
+parentPort?.on('message', (data: TypeSchemaTree[]) => {
   startZodSchema(data);
 });

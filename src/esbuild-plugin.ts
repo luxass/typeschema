@@ -3,12 +3,11 @@
  */
 import { Plugin } from 'esbuild';
 
-import { createTypeSchema } from '.';
 import { info } from './log';
 import { TypeSchemaConfig } from './types';
 import { convertInputFilesToRegex } from './utils';
 
-const TypeSchemaPlugin = ({ jsonschema, zod }: TypeSchemaConfig): Plugin => ({
+const ESBUILDTypeSchemaPlugin = ({ jsonschema, zod }: TypeSchemaConfig): Plugin => ({
   name: 'typeschema',
   async setup(build) {
     info('esbuild', 'Setting up typeschema plugin');
@@ -25,4 +24,4 @@ const TypeSchemaPlugin = ({ jsonschema, zod }: TypeSchemaConfig): Plugin => ({
   }
 });
 
-export default TypeSchemaPlugin;
+export default ESBUILDTypeSchemaPlugin;
