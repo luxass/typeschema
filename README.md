@@ -45,3 +45,7 @@ enum -> enum
 # TAGS
 
 jsonschema-ref - Sets top level ref
+
+# Not Supported
+
+* Class without names

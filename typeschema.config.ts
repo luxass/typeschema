@@ -20,10 +20,10 @@ export default defineConfig({
   //     useTags: true
   //   }
   // },
-  zod: {
-    input: ['testing/test2.ts'],
-    outputDir: '.out'
-  },
+  // zod: {
+  //   input: ['testing/test2.ts'],
+  //   outputDir: '.out'
+  // },
   jsonschema: {
     input: ['testing/test2.ts'],
     outputDir: '.out'

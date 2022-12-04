@@ -44,3 +44,17 @@ const LL = "hey! I'm a string";
 class LittleBitch {
   constructor(public name: string) {}
 }
+
+// export default class Test3 {}
+export default class {}
+
+const fuckpython = new class {
+
+};
+
+() => {}
+
+// function() -> Function Expression
+[].forEach(function() {
+
+})

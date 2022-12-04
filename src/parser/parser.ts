@@ -32,27 +32,26 @@ export async function parseTypes(
     warn('NOT SUPPORTED', 'Generics is not supported yet.');
   }
 
+
+  const parsers: any[] = [];
+
   pluginContainer.setContext({
-    register: (tree) => {
-      // trees.push(tree);
+    typeChecker,
+    register: (node, parser) => {
+      parsers.push({ node, parser });
     }
   });
 
   await pluginContainer.initialize();
 
   nodes.forEach(({ node, sourceFile }) => {
-    // if (ts.isInterfaceDeclaration(node.node)) {
-    //   const tree = parseInterface(node as ts.NodeWithSourceFile<ts.InterfaceDeclaration>);
-    //   trees.push(tree);
-    // }
-    // if (ts.isTypeAliasDeclaration(node.node)) {
-    //   const tree = parseTypeAlias(node as ts.NodeWithSourceFile<ts.TypeAliasDeclaration>);
-    //   trees.push(tree);
-    // }
-    // if (ts.isEnumDeclaration(node.node)) {
-    //   const enumTree = parseEnum(node as ts.NodeWithSourceFile<ts.EnumDeclaration>, typeChecker);
-    //   trees.push(enumTree);
-    // }
+    const isMatching = parsers.find(({ node: subNode }) => subNode === node.kind);
+
+    if (isMatching) {
+      console.log('skip', ts.SyntaxKind[node.kind]);
+      const tree = isMatching.parser(node);
+      trees.push(tree);
+    }
   });
 
   return trees;

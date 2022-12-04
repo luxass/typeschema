@@ -1,4 +1,4 @@
-import ts, { SyntaxKind } from 'typescript';
+import ts from 'typescript';
 
 export interface TypeSchemaConfig {
   plugins?: TypeSchemaPlugin[];
@@ -217,6 +217,6 @@ type Writers = 'zod' | 'jsonschema';
 // TODO: Add typesafety to this.
 type Node = string;
 export interface PluginContext {
-  register(kind: SyntaxKind): void;
+  typeChecker: ts.TypeChecker;
+  register(kind: ts.SyntaxKind, parser: (node: ts.Node) => TypeSchemaTree): void;
 }
-
