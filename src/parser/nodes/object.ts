@@ -1,6 +1,5 @@
 export function parseObject() {
   return {
-    type: "object",
-
+    type: 'object'
   };
 }

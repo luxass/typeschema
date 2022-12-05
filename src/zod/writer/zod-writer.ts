@@ -1,6 +1,7 @@
-import ts from "typescript";
+import ts from 'typescript';
+
 import { TypeSchemaTree } from '../../types';
-import { writeObject } from "./object";
+import { writeObject } from './object';
 
 export function writeZodSchema(trees: TypeSchemaTree[]): ts.VariableStatement[] {
   const schemas: ts.VariableStatement[] = [];
@@ -9,7 +10,7 @@ export function writeZodSchema(trees: TypeSchemaTree[]): ts.VariableStatement[] 
 
     switch (type) {
       case 'object':
-        schemas.push(writeObject(tree))
+        schemas.push(writeObject(tree));
         break;
       case 'string':
         break;
@@ -18,7 +19,6 @@ export function writeZodSchema(trees: TypeSchemaTree[]): ts.VariableStatement[] 
       case 'boolean':
         break;
     }
-
   }
   return schemas;
 }

@@ -218,5 +218,10 @@ type Writers = 'zod' | 'jsonschema';
 type Node = string;
 export interface PluginContext {
   typeChecker: ts.TypeChecker;
-  register(kind: ts.SyntaxKind, parser: (node: ts.Node) => TypeSchemaTree): void;
+  parser: ParserContext;
+  writer: WriterContext;
 }
+
+export interface ParserContext {}
+
+export interface WriterContext {}

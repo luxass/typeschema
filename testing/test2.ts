@@ -48,13 +48,9 @@ class LittleBitch {
 // export default class Test3 {}
 export default class {}
 
-const fuckpython = new class {
+const fuckpython = new (class {})();
 
-};
-
-() => {}
+() => {};
 
 // function() -> Function Expression
-[].forEach(function() {
-
-})
+[].forEach(function () {});

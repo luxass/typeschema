@@ -37,11 +37,13 @@
     "dist"
   ],
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "build": "tsup",
     "dev": "tsup --watch",
     "format": "prettier --write --cache .",
     "lint": "eslint --cache {src,tests}/**/*.ts",
-    "test": "vitest"
+    "test": "vitest",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [
     "zod schema",

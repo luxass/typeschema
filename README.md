@@ -39,7 +39,6 @@ number -> number
 boolean -> boolean
 array -> array
 enum -> enum
-
 ```
 
 # TAGS
@@ -48,4 +47,4 @@ jsonschema-ref - Sets top level ref
 
 # Not Supported
 
-* Class without names
+- Class without names

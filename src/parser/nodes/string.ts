@@ -1,6 +1,5 @@
 export function parseString() {
   return {
-    type: "string",
-    
+    type: 'string'
   };
 }

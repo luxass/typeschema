@@ -23,7 +23,7 @@ program
         throw new Error('Could not load config');
       }
       config = data;
-      await runTypeSchema(config)
+      await runTypeSchema(config);
       // await createTypeSchema(config);
     } catch (e) {
       console.error(e);

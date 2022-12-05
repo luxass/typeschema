@@ -32,7 +32,6 @@ export async function parseTypes(
     warn('NOT SUPPORTED', 'Generics is not supported yet.');
   }
 
-
   const parsers: any[] = [];
 
   pluginContainer.setContext({

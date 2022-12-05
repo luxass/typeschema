@@ -1,6 +1,7 @@
-import ts from "typescript";
-import { TypeSchemaTree } from "../types";
-import { getTypeName } from "../utils";
+import ts from 'typescript';
+
+import { TypeSchemaTree } from '../types';
+import { getTypeName } from '../utils';
 
 export function parseTypeAlias(
   typeNode: ts.NodeWithSourceFile<ts.TypeAliasDeclaration>
@@ -11,8 +12,8 @@ export function parseTypeAlias(
   const type = getTypeName(node.type, sourceFile);
   return {
     name,
-    type,
-    
+    type
+
     // properties: _properties,
     // heritageClauses,
     // annotations: getPrettyJSDoc(node, sourceFile),

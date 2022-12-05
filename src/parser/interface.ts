@@ -101,9 +101,7 @@ export function parseInterface(
           const typeArguments = (property.type as ts.TypeReferenceNode).typeArguments ?? [];
           const refType = typeArguments[0];
           if (ts.isTypeLiteralNode(refType)) {
-            const { properties: memberProperties, indexSignature } = parseMembers(
-              refType.members
-            );
+            const { properties: memberProperties, indexSignature } = parseMembers(refType.members);
             const properties = memberProperties
               .map((property) => {
                 if (!property.type) return;
@@ -128,9 +126,8 @@ export function parseInterface(
               },
               annotations,
               required
-            })
+            });
           }
-
 
           return _properties.push({
             name,
