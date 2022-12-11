@@ -1,0 +1,49 @@
+{
+  "name": "typeschema",
+  "version": "0.0.1",
+  "description": "Generate JSON Schema, Zod Schemas from TypeScript types.",
+  "type": "module",
+  "bin": {
+    "typeschema": "./dist/cli.js"
+  },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs"
+    },
+    "./config": {
+      "types": "./dist/config.d.ts",
+      "import": "./dist/config.mjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/luxass/typeschema",
+    "directory": "packages/typeschema"
+  },
+  "bugs": {
+    "url": "https://github.com/luxass/typeschema/issues"
+  },
+  "homepage": "https://github.com/luxass/typeschema/blob/main/packages/typeschema#readme",
+  "author": {
+    "name": "Lucas Norgaard",
+    "email": "lucasnrgaard@gmail.com",
+    "url": "https://luxass.dev"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@typeschema/utils-internal": "workspace:*",
+    "commander": "^9.4.1"
+  }
+}

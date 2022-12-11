@@ -1,84 +1,30 @@
 {
-  "name": "typeschema",
-  "version": "0.0.1",
-  "description": "Generate JSON Schema, Zod Schemas from TypeScript types.",
-  "type": "module",
-  "bin": {
-    "typeschema": "./dist/cli.js"
-  },
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./config": {
-      "types": "./dist/config.d.ts",
-      "import": "./dist/config.js"
-    },
-    "./plugin": {
-      "types": "./dist/esbuild-plugin.d.ts",
-      "import": "./dist/esbuild-plugin.js"
-    }
-  },
-  "typesVersions": {
-    "*": {
-      "config": [
-        "dist/config.d.ts"
-      ],
-      "plugin": [
-        "dist/esbuild-plugin.d.ts"
-      ]
-    }
-  },
-  "files": [
-    "dist"
-  ],
+  "name": "typeschema-monorepo",
+  "private": true,
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "format": "prettier --write --cache .",
-    "lint": "eslint --cache {src,tests}/**/*.ts",
-    "test": "vitest",
-    "typecheck": "tsc --noEmit"
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "test": "turbo run test"
   },
-  "keywords": [
-    "zod schema",
-    "json schema",
-    "convert",
-    "typescript",
-    "schema",
-    "plugin"
+  "workspaces": [
+    "apps/*",
+    "packages/*"
   ],
-  "author": {
-    "name": "Lucas Norgaard",
-    "email": "lucasnrgaard@gmail.com",
-    "url": "https://luxass.dev"
-  },
-  "license": "MIT",
   "devDependencies": {
     "@luxass/eslint-config": "^1.0.8",
-    "@luxass/prettier-config": "^1.0.4",
     "@types/node": "^18.11.9",
-    "colorette": "^2.0.19",
     "eslint": "^8.27.0",
-    "prettier": "^2.7.1",
-    "strip-json-comments": "^5.0.0",
     "tsup": "^6.5.0",
-    "typescript": "^4.9.3",
+    "turbo": "^1.6.3",
+    "typescript": "^4.8.4",
     "vitest": "^0.22.1"
   },
-  "dependencies": {
-    "bundle-require": "^3.1.2",
-    "commander": "^9.4.1",
-    "esbuild": "^0.15.14",
-    "globby": "^13.1.2",
-    "joycon": "^3.1.1"
+  "license": "MIT",
+  "engines": {
+    "node": ">=16"
   },
-  "peerDependencies": {
-    "typescript": "^4.8.4"
-  }
+  "packageManager": "pnpm@7.18.0"
 }
