@@ -12,7 +12,7 @@
       "cache": false
     },
     "test": {
-      "dependsOn": ["^build", "^lint"],
+      "dependsOn": [],
       "outputs": []
     }
   }

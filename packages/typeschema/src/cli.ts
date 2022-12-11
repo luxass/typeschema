@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { Option, program } from 'commander';
+import { program } from "commander";
 
 // import { TypeSchemaConfig, createTypeSchema, runTypeSchema } from '.';
 // import { loadTypeSchemaConfig } from './config';
@@ -10,9 +10,9 @@ declare global {
 
 // TODO: Add zod and jsonschema options to CLI.
 program
-  .name('typeschema')
+  .name("typeschema")
   .version(__VERSION__)
-  .option('-c, --config <path>', 'path to config file')
+  .option("-c, --config <path>", "path to config file")
 
   .action(async () => {
     const opts = program.opts();

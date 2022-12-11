@@ -13,13 +13,13 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@luxass/eslint-config": "^1.0.8",
-    "@types/node": "^18.11.9",
-    "eslint": "^8.27.0",
+    "@luxass/eslint-config": "^2.0.0",
+    "@types/node": "^18.11.13",
+    "eslint": "^8.29.0",
     "tsup": "^6.5.0",
     "turbo": "^1.6.3",
-    "typescript": "^4.8.4",
-    "vitest": "^0.22.1"
+    "typescript": "^4.9.4",
+    "vitest": "^0.25.7"
   },
   "license": "MIT",
   "engines": {

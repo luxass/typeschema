@@ -1,1 +1,1 @@
-export const bar = "foo"
+export const bar = "foo";
