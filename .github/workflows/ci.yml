@@ -5,33 +5,35 @@ on:
     branches:
       - next
   pull_request:
+    types: ["opened", "synchronize"]
   workflow_dispatch:
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
     steps:
-      - uses: actions/checkout@v3
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Set node version to 16
+      - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'pnpm'
 
-      - name: Install Dependencies
-        run: pnpm install
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
 
       - name: Build
-        run: pnpm run build
+        run: pnpm build
 
       - name: Lint
-        run: pnpm run lint
+        run: pnpm lint
 
-      - name: Check formatting
-        run: pnpm prettier --check .
-
-      - name: Typecheck
-        run: pnpm run typecheck
+      - name: Test
+        run: pnpm test
