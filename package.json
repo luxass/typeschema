@@ -50,7 +50,8 @@
     "json schema",
     "convert",
     "typescript",
-    "schema"
+    "schema",
+    "plugin"
   ],
   "author": {
     "name": "Lucas Norgaard",

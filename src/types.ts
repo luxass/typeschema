@@ -214,14 +214,16 @@ export interface TypeSchemaPlugin {
 }
 
 type Writers = 'zod' | 'jsonschema';
-// TODO: Add typesafety to this.
-type Node = string;
 export interface PluginContext {
   typeChecker: ts.TypeChecker;
   parser: ParserContext;
   writer: WriterContext;
 }
 
-export interface ParserContext {}
+export interface ParserContext {
+  register(): Promise<void> | void;
+}
 
-export interface WriterContext {}
+export interface WriterContext {
+  register(): Promise<void> | void;
+}
