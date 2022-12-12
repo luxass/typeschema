@@ -1,0 +1,18 @@
+---
+import Head from "../components/Head.astro";
+import { SITE } from "../config";
+
+---
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en-us" class="initial">
+  <head>
+    <Head  />
+    <title>{SITE.title}</title>
+  </head>
+  <body>
+    <main class="min-h-screen max-w-7xl mx-auto">
+      <slot/>
+    </main>
+  </body>
+</html>

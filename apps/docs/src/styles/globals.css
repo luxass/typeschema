@@ -4,6 +4,6 @@
 
 @layer base {
   html {
-    @apply bg-[rgba(236,228,236,1)] text-slate-900 dark:bg-[rgba(15,23,41,1)] dark:text-green-500
+    @apply bg-[rgba(236,228,236,1)] text-slate-900 dark:bg-[rgb(0,2,18)] dark:text-green-500
   }
 }
