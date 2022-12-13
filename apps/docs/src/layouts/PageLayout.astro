@@ -1,5 +1,6 @@
 ---
 import Head from "../components/Head.astro";
+import Header from "../components/Header.astro";
 import { SITE } from "../config";
 
 ---
@@ -10,9 +11,10 @@ import { SITE } from "../config";
     <Head  />
     <title>{SITE.title}</title>
   </head>
-  <body>
-    <main class="min-h-screen max-w-7xl mx-auto">
+  <body class="min-h-screen max-w-7xl mx-auto">
+    <Header />
+    <main>
       <slot/>
     </main>
-  </body>
+	</body>
 </html>
