@@ -8,7 +8,6 @@ declare global {
   const __VERSION__: string;
 }
 
-// TODO: Add zod and jsonschema options to CLI.
 program
   .name("typeschema")
   .version(__VERSION__)
