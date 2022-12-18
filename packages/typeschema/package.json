@@ -1,14 +1,23 @@
 {
   "name": "typeschema",
+  "type": "module",
   "version": "0.0.1",
   "description": "Generate JSON Schema, Zod Schemas from TypeScript types.",
-  "type": "module",
-  "bin": {
-    "typeschema": "./dist/cli.js"
+  "author": {
+    "name": "Lucas Norgaard",
+    "email": "lucasnrgaard@gmail.com",
+    "url": "https://luxass.dev"
   },
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "license": "MIT",
+  "homepage": "https://github.com/luxass/typeschema/blob/main/packages/typeschema#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/luxass/typeschema",
+    "directory": "packages/typeschema"
+  },
+  "bugs": {
+    "url": "https://github.com/luxass/typeschema/issues"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -19,6 +28,12 @@
       "import": "./dist/config.mjs"
     }
   },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "typeschema": "./dist/cli.js"
+  },
   "files": [
     "dist"
   ],
@@ -28,21 +43,6 @@
     "test": "vitest --run",
     "lint": "eslint --cache {src,tests}/**/*.ts"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/luxass/typeschema",
-    "directory": "packages/typeschema"
-  },
-  "bugs": {
-    "url": "https://github.com/luxass/typeschema/issues"
-  },
-  "homepage": "https://github.com/luxass/typeschema/blob/main/packages/typeschema#readme",
-  "author": {
-    "name": "Lucas Norgaard",
-    "email": "lucasnrgaard@gmail.com",
-    "url": "https://luxass.dev"
-  },
-  "license": "MIT",
   "dependencies": {
     "@typeschema/utils-internal": "workspace:*",
     "commander": "^9.4.1"

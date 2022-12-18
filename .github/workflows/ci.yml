@@ -5,7 +5,7 @@ on:
     branches:
       - next
   pull_request:
-    types: ["opened", "synchronize"]
+    types: [opened, synchronize]
   workflow_dispatch:
 
 jobs:
@@ -28,7 +28,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'pnpm'
+          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install

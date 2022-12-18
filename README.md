@@ -5,5 +5,5 @@
 ## Installation
 
 ```bash
-npm install typeschema
+pnpm install typeschema
 ```
