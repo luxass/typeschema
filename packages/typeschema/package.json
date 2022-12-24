@@ -1,7 +1,7 @@
 {
   "name": "typeschema",
-  "type": "module",
   "version": "0.0.1",
+  "type": "module",
   "description": "Generate JSON Schema, Zod Schemas from TypeScript types.",
   "author": {
     "name": "Lucas Norgaard",

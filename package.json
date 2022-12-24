@@ -1,11 +1,11 @@
 {
   "name": "typeschema-monorepo",
   "private": true,
+  "packageManager": "pnpm@7.18.0",
   "license": "MIT",
   "engines": {
     "node": ">=16"
   },
-  "packageManager": "pnpm@7.18.0",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "turbo run build",
