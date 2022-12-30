@@ -72,11 +72,15 @@ importers:
 
   packages/utils:
     specifiers:
+      bundle-require: ^3.1.2
       esbuild: ^0.16.4
       joycon: ^3.1.1
+      jsonc-parse: ^1.0.2
     dependencies:
+      bundle-require: 3.1.2_esbuild@0.16.4
       esbuild: 0.16.4
       joycon: 3.1.1
+      jsonc-parse: 1.0.2
 
 packages:
 
@@ -2028,6 +2032,16 @@ packages:
       esbuild: 0.15.18
       load-tsconfig: 0.2.3
     dev: true
+
+  /bundle-require/3.1.2_esbuild@0.16.4:
+    resolution: {integrity: sha512-Of6l6JBAxiyQ5axFxUM6dYeP/W7X2Sozeo/4EYB9sJhL+dqL7TKjg+shwxp6jlu/6ZSERfsYtIpSJ1/x3XkAEA==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+    peerDependencies:
+      esbuild: '>=0.13'
+    dependencies:
+      esbuild: 0.16.4
+      load-tsconfig: 0.2.3
+    dev: false
 
   /cac/6.7.14:
     resolution: {integrity: sha512-b6Ilus+c3RrdDk+JhLKUAQfzzgLEPy6wcXqS7f/xe1EETvsDP6GORG7SFuOs6cID5YkqchW/LXZbX5bc8j7ZcQ==}
@@ -4069,6 +4083,13 @@ packages:
       semver: 7.3.8
     dev: true
 
+  /jsonc-parse/1.0.2:
+    resolution: {integrity: sha512-Kt94suLyS/K71shxlaQOSwsjs4ZoY83xmO+OLHpEpi2WFiTcevLIbjgQkfZAO3kdYrDjwTBNb03mK8Xqvk8nSQ==}
+    engines: {node: '>=16'}
+    dependencies:
+      strip-json-comments: 5.0.0
+    dev: false
+
   /jsonc-parser/2.3.1:
     resolution: {integrity: sha512-H8jvkz1O50L3dMZCsLqiuB2tA7muqbSg1AtGEkN0leAqGjsUzDJir3Zwr02BhqdcITPg3ei3mZ+HjMocAknhhg==}
     dev: false
@@ -4119,7 +4140,6 @@ packages:
   /load-tsconfig/0.2.3:
     resolution: {integrity: sha512-iyT2MXws+dc2Wi6o3grCFtGXpeMvHmJqS27sMPGtV2eUu4PeFnG+33I8BlFK1t1NWMjOpcx9bridn5yxLDX2gQ==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dev: true
 
   /load-yaml-file/0.2.0:
     resolution: {integrity: sha512-OfCBkGEw4nN6JLtgRidPX6QxjBQGQf72q3si2uvqyFEMbycSFFHwAZeXx6cJgFM9wmLrf9zBwCP3Ivqa+LLZPw==}
@@ -6031,6 +6051,11 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
     dev: true
+
+  /strip-json-comments/5.0.0:
+    resolution: {integrity: sha512-V1LGY4UUo0jgwC+ELQ2BNWfPa17TIuwBLg+j1AA/9RPzKINl1lhxVEu2r+ZTTO8aetIsUzE5Qj6LMSBkoGYKKw==}
+    engines: {node: '>=14.16'}
+    dev: false
 
   /strip-literal/1.0.0:
     resolution: {integrity: sha512-5o4LsH1lzBzO9UFH63AJ2ad2/S2AVx6NtjOcaz+VTT2h1RiRvbipW72z8M/lxEhcPHDBQwpDrnTF7sXy/7OwCQ==}

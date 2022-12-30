@@ -7,14 +7,9 @@ const entry = ["src/cli.ts", "src/index.ts", "src/config.ts", "src/esbuild-plugi
 
 export default defineConfig({
   entry: [...entry, ...workers],
-  format: ["esm"],
+  format: ["esm", "cjs"],
   clean: true,
   treeshake: true,
-  outExtension(ctx) {
-    return {
-      js: ctx.format === "esm" ? ".mjs" : ".cjs",
-    };
-  },
   dts: true,
   external: ["typescript"],
   define: {

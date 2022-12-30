@@ -1,3 +1,6 @@
 {
-  "extends": "@luxass"
+  "root": true,
+  "extends": [
+    "@luxass/eslint-config"
+  ]
 }

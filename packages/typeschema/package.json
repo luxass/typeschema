@@ -1,7 +1,7 @@
 {
   "name": "typeschema",
-  "version": "0.0.1",
   "type": "module",
+  "version": "0.0.1",
   "description": "Generate JSON Schema, Zod Schemas from TypeScript types.",
   "author": {
     "name": "Lucas Norgaard",
@@ -21,18 +21,20 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs"
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
     },
     "./config": {
       "types": "./dist/config.d.ts",
-      "import": "./dist/config.mjs"
+      "require": "./dist/config.cjs",
+      "import": "./dist/config.js"
     }
   },
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "typeschema": "./dist/cli.js"
+    "typeschema": "./dist/cli.mjs"
   },
   "files": [
     "dist"
