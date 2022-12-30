@@ -1,4 +1,4 @@
-import { defineConfig } from "../packages/utils/src/config";
+import { defineConfig } from "../packages/typeschema/dist";
 
 export default defineConfig({
    
