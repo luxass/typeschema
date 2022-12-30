@@ -62,16 +62,25 @@ importers:
     dependencies:
       '@typeschema/utils-internal': link:../utils
 
+  packages/types:
+    specifiers: {}
+
   packages/typeschema:
     specifiers:
+      '@typeschema/types': workspace:*
       '@typeschema/utils-internal': workspace:*
+      chalk: ^5.2.0
       commander: ^9.4.1
     dependencies:
       '@typeschema/utils-internal': link:../utils
+      chalk: 5.2.0
       commander: 9.4.1
+    devDependencies:
+      '@typeschema/types': link:../types
 
   packages/utils:
     specifiers:
+      '@typeschema/types': workspace:*
       bundle-require: ^3.1.2
       esbuild: ^0.16.4
       joycon: ^3.1.1
@@ -81,6 +90,8 @@ importers:
       esbuild: 0.16.4
       joycon: 3.1.1
       jsonc-parse: 1.0.2
+    devDependencies:
+      '@typeschema/types': link:../types
 
 packages:
 

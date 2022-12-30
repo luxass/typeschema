@@ -3,20 +3,14 @@
   "version": "0.0.1",
   "description": "TypeSchema Helpers",
   "type": "module",
-  "bin": {
-    "typeschema": "./dist/cli.js"
-  },
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs"
-    },
-    "./config": {
-      "types": "./dist/config.d.ts",
-      "import": "./dist/config.mjs"
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
     }
   },
   "files": [
@@ -31,12 +25,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/luxass/typeschema",
-    "directory": "packages/typeschema"
+    "directory": "packages/helpers"
   },
   "bugs": {
     "url": "https://github.com/luxass/typeschema/issues"
   },
-  "homepage": "https://github.com/luxass/typeschema/blob/main/packages/typeschema#readme",
+  "homepage": "https://github.com/luxass/typeschema/blob/main/packages/helpers#readme",
   "author": {
     "name": "Lucas Norgaard",
     "email": "lucasnrgaard@gmail.com",

@@ -1,8 +1,8 @@
 {
   "name": "@typeschema/utils-internal",
+  "type": "module",
   "version": "0.0.1",
   "private": true,
-  "type": "module",
   "description": "Internal Utils for Typeschema",
   "author": {
     "name": "Lucas Norgaard",
@@ -22,11 +22,12 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs"
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
     }
   },
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
@@ -42,5 +43,8 @@
     "esbuild": "^0.16.4",
     "joycon": "^3.1.1",
     "jsonc-parse": "^1.0.2"
+  },
+  "devDependencies": {
+    "@typeschema/types": "workspace:*"
   }
 }

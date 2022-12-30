@@ -2,12 +2,8 @@ import path from "node:path";
 import { bundleRequire, loadTsConfig } from "bundle-require";
 import JoyCon from "joycon";
 import ts from "typescript";
-
+import type { TypeSchemaConfig } from "@typeschema/types"
 import { parseFile } from "jsonc-parse";
-
-export interface TypeSchemaConfig {
-
-}
 
 const joycon = new JoyCon();
 

@@ -1,1 +1,1 @@
-export const foo = "bar";
+export { loadTypeSchemaConfig, defineConfig, loadTSConfig, DEFAULT_TSCONFIG } from "./config";

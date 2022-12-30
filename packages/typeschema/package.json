@@ -34,7 +34,7 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "typeschema": "./dist/cli.mjs"
+    "typeschema": "./dist/cli.js"
   },
   "files": [
     "dist"
@@ -47,6 +47,10 @@
   },
   "dependencies": {
     "@typeschema/utils-internal": "workspace:*",
+    "chalk": "^5.2.0",
     "commander": "^9.4.1"
+  },
+  "devDependencies": {
+    "@typeschema/types": "workspace:*"
   }
 }
