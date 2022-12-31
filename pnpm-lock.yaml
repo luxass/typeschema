@@ -68,6 +68,12 @@ importers:
     devDependencies:
       typeschema: link:../../typeschema
 
+  packages/plugins/zod-schema:
+    specifiers:
+      typeschema: workspace:*
+    devDependencies:
+      typeschema: link:../../typeschema
+
   packages/types:
     specifiers: {}
 
