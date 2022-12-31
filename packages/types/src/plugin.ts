@@ -7,5 +7,14 @@ export interface TypeSchemaPlugin {
 
 export interface PluginContext {
   typeChecker: ts.TypeChecker
-  // register(kind: ts.SyntaxKind, parser: (node: ts.Node) => TypeSchemaTree): void;
+  ast: AstContext
+  transform: TransformContext
+}
+
+export interface AstContext {
+
+}
+
+export interface TransformContext {
+
 }

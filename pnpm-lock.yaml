@@ -62,6 +62,12 @@ importers:
     dependencies:
       '@typeschema/utils-internal': link:../utils
 
+  packages/plugins/json-schema:
+    specifiers:
+      typeschema: workspace:*
+    devDependencies:
+      typeschema: link:../../typeschema
+
   packages/types:
     specifiers: {}
 

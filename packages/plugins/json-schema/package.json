@@ -1,46 +1,36 @@
 {
-  "name": "typeschema",
+  "name": "typeschema-plugin-json-schema",
   "type": "module",
   "version": "0.0.1",
-  "description": "Generate JSON Schema, Zod Schemas from TypeScript types.",
+  "description": "Generate JSON Schema from TypeSchema",
   "author": {
     "name": "Lucas Norgaard",
     "email": "lucasnrgaard@gmail.com",
     "url": "https://luxass.dev"
   },
   "license": "MIT",
-  "homepage": "https://github.com/luxass/typeschema/blob/main/packages/typeschema#readme",
+  "homepage": "https://github.com/luxass/typeschema/blob/main/packages/plugins/json-schema#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/luxass/typeschema",
-    "directory": "packages/typeschema"
+    "directory": "packages/plugins/json-schema"
   },
   "bugs": {
     "url": "https://github.com/luxass/typeschema/issues"
   },
+  "keywords": [
+    "typeschema-plugin"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "require": "./dist/index.cjs",
       "import": "./dist/index.js"
-    },
-    "./config": {
-      "types": "./dist/config.d.ts",
-      "require": "./dist/config.cjs",
-      "import": "./dist/config.js"
-    },
-    "./plugin": {
-      "types": "./dist/plugin.d.ts",
-      "require": "./dist/plugin.cjs",
-      "import": "./dist/plugin.js"
     }
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "bin": {
-    "typeschema": "./dist/cli.js"
-  },
   "files": [
     "dist"
   ],
@@ -50,12 +40,7 @@
     "test": "vitest --run",
     "lint": "eslint --cache {src,tests}/**/*.ts"
   },
-  "dependencies": {
-    "@typeschema/utils-internal": "workspace:*",
-    "chalk": "^5.2.0",
-    "commander": "^9.4.1"
-  },
   "devDependencies": {
-    "@typeschema/types": "workspace:*"
+    "typeschema": "workspace:*"
   }
 }

@@ -25,7 +25,9 @@ export default defineConfig([
   {
     ...sharedConfig,
     entry: [
-      "src/index.ts"
+      "src/index.ts",
+      "src/config.ts",
+      "src/plugin.ts"
     ],
     dts: true,
     format: ["esm", "cjs"]
