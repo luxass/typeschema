@@ -1,0 +1,45 @@
+{
+  "name": "typeschema-plugin-json-schema",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "Generate JSON Schema from TypeSchema",
+  "author": {
+    "name": "Lucas Norgaard",
+    "email": "lucasnrgaard@gmail.com",
+    "url": "https://luxass.dev"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/luxass/typeschema/blob/main/packages/plugins/json-schema#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/luxass/typeschema",
+    "directory": "packages/plugins/json-schema"
+  },
+  "bugs": {
+    "url": "https://github.com/luxass/typeschema/issues"
+  },
+  "keywords": [
+    "typeschema-plugin"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest --run",
+    "lint": "eslint --cache {src,tests}/**/*.ts"
+  },
+  "devDependencies": {
+    "typeschema": "workspace:*"
+  }
+}
