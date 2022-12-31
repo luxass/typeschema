@@ -1,27 +1,15 @@
 {
   "name": "@typeschema/helpers",
+  "type": "module",
   "version": "0.0.1",
   "description": "TypeSchema Helpers",
-  "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.js"
-    }
+  "author": {
+    "name": "Lucas Norgaard",
+    "email": "lucasnrgaard@gmail.com",
+    "url": "https://luxass.dev"
   },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "test": "vitest --run",
-    "lint": "eslint --cache {src,tests}/**/*.ts"
-  },
+  "license": "MIT",
+  "homepage": "https://github.com/luxass/typeschema/blob/main/packages/helpers#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/luxass/typeschema",
@@ -30,14 +18,22 @@
   "bugs": {
     "url": "https://github.com/luxass/typeschema/issues"
   },
-  "homepage": "https://github.com/luxass/typeschema/blob/main/packages/helpers#readme",
-  "author": {
-    "name": "Lucas Norgaard",
-    "email": "lucasnrgaard@gmail.com",
-    "url": "https://luxass.dev"
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
   },
-  "license": "MIT",
-  "dependencies": {
-    "@typeschema/utils-internal": "workspace:*"
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest --run",
+    "lint": "eslint --cache {src,tests}/**/*.ts"
   }
 }

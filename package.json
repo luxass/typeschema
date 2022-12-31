@@ -1,11 +1,11 @@
 {
   "name": "typeschema-monorepo",
   "private": true,
-  "packageManager": "pnpm@7.18.0",
   "license": "MIT",
   "engines": {
     "node": ">=16"
   },
+  "packageManager": "pnpm@7.18.0",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "turbo run build",
@@ -17,6 +17,9 @@
     "apps/*",
     "packages/*"
   ],
+  "peerDependencies": {
+    "typescript": "^4.9.4"
+  },
   "devDependencies": {
     "@luxass/eslint-config": "^2.2.4",
     "@types/node": "^18.11.17",

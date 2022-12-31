@@ -21,21 +21,18 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
       "import": "./dist/index.js"
     },
     "./config": {
       "types": "./dist/config.d.ts",
-      "require": "./dist/config.cjs",
       "import": "./dist/config.js"
     },
     "./plugin": {
       "types": "./dist/plugin.d.ts",
-      "require": "./dist/plugin.cjs",
       "import": "./dist/plugin.js"
     }
   },
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
@@ -51,9 +48,12 @@
     "lint": "eslint --cache {src,tests}/**/*.ts"
   },
   "dependencies": {
-    "@typeschema/utils-internal": "workspace:*",
+    "bundle-require": "^3.1.2",
     "chalk": "^5.2.0",
-    "commander": "^9.4.1"
+    "commander": "^9.4.1",
+    "esbuild": "^0.15.14",
+    "joycon": "^3.1.1",
+    "jsonc-parse": "^1.0.2"
   },
   "devDependencies": {
     "@typeschema/types": "workspace:*"

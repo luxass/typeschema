@@ -1,6 +1,6 @@
 # TypeSchema
 
-> Convert TypeScript Types to Zod Schemas, JSON Schemas. - built for [Zotera](https://github.com/zotera/zotera)
+> Convert TypeScript Types to What you want. (e.g. JSON Schema, Zod Schemas)
 
 ## Installation
 

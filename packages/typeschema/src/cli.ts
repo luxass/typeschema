@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-import { loadTypeSchemaConfig } from "@typeschema/utils-internal";
 import { program } from "commander";
 import type { TypeSchemaConfig } from "@typeschema/types";
 import chalk from "chalk";
+import { loadTypeSchemaConfig } from "./config";
 import { createTypeSchema } from ".";
 
 declare global {

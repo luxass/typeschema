@@ -2,8 +2,9 @@ import type { TypeSchemaPlugin } from "typeschema/plugin";
 
 const JsonSchemaPlugin: TypeSchemaPlugin = {
   name: "json-schema",
-  setup(_ctx) {
-
+  setup(ctx) {
+    // ctx.ast.match()
+    // ctx.ast.
   }
 };
 

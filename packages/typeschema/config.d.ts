@@ -1,1 +1,1 @@
-export * from './dist/config.js'
+export { defineConfig } from './dist/config.js'

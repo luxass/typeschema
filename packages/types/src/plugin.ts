@@ -11,10 +11,12 @@ export interface PluginContext {
   transform: TransformContext
 }
 
+// Types to AST
 export interface AstContext {
 
 }
 
+// AST TO Code
 export interface TransformContext {
 
 }
