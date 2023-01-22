@@ -48,12 +48,13 @@
     "lint": "eslint --cache {src,tests}/**/*.ts"
   },
   "dependencies": {
-    "bundle-require": "^3.1.2",
+    "@luxass/find-config": "^0.1.0",
+    "@luxass/load-config": "^0.1.0",
     "chalk": "^5.2.0",
     "commander": "^9.4.1",
-    "esbuild": "^0.15.14",
-    "joycon": "^3.1.1",
-    "jsonc-parse": "^1.0.2"
+    "esbuild": "^0.16.17",
+    "jsonc-parse": "^1.0.2",
+    "tsconf-utils": "^1.1.0"
   },
   "devDependencies": {
     "@typeschema/types": "workspace:*"

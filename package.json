@@ -1,5 +1,6 @@
 {
   "name": "typeschema-monorepo",
+  "type": "module",
   "private": true,
   "license": "MIT",
   "engines": {
@@ -21,9 +22,11 @@
     "typescript": "^4.9.4"
   },
   "devDependencies": {
-    "@luxass/eslint-config": "^2.2.4",
+    "@luxass/eslint-config": "^2.2.6",
+    "@luxass/prettier-config": "^1.1.4",
     "@types/node": "^18.11.17",
     "eslint": "^8.30.0",
+    "prettier": "^2.8.3",
     "tsup": "^6.5.0",
     "turbo": "^1.6.3",
     "typescript": "^4.9.4",

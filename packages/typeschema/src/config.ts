@@ -1,26 +1,15 @@
-import path from "node:path";
-import { bundleRequire, loadTsConfig } from "bundle-require";
-import JoyCon from "joycon";
+import { resolveTSConfig } from "tsconf-utils";
 import ts from "typescript";
+
+import { resolveConfig } from "@luxass/find-config";
+import { loadConfig } from "@luxass/load-config";
 import type { TypeSchemaConfig } from "@typeschema/types";
-import { parseFile } from "jsonc-parse";
-
-const joycon = new JoyCon();
-
-const jsonLoader = {
-  test: /\.json$/,
-  load(filepath: string) {
-    return parseFile(filepath);
-  }
-};
-
-joycon.addLoader(jsonLoader);
 
 export async function loadTypeSchemaConfig(
   cwd: string,
   configFile?: string
 ): Promise<{ path?: string; data?: ReturnType<typeof defineConfig> }> {
-  const configPath = await joycon.resolve({
+  const resolvedConfig = await resolveConfig({
     files: configFile
       ? [configFile]
       : [
@@ -28,33 +17,19 @@ export async function loadTypeSchemaConfig(
           "typeschema.config.js",
           "typeschema.config.cjs",
           "typeschema.config.mjs",
-          "typeschema.config.json",
+          "typeschema.json",
           "package.json"
         ],
     cwd,
-    stopDir: path.parse(cwd).root,
-    packageKey: "typeschema"
+    name: "typeschema"
+  });
+  if (!resolvedConfig) return {};
+
+  const { config } = await loadConfig(resolvedConfig.path, {
+    cwd
   });
 
-  if (configPath) {
-    if (configPath.endsWith(".json")) {
-      let data = await parseFile(configPath);
-      if (!data) return {};
-
-      if (configPath.endsWith("package.json")) {
-        data = data.typeschema;
-      }
-      return { path: configPath, data };
-    }
-
-    const config = await bundleRequire({
-      filepath: configPath
-    });
-    return {
-      path: configPath,
-      data: config.mod.typeschema || config.mod.default || config.mod
-    };
-  }
+  console.log(config);
 
   return {};
 }
@@ -66,9 +41,12 @@ export const DEFAULT_TSCONFIG: { compilerOptions: ts.CompilerOptions } = {
   }
 };
 
-export function loadTSConfig(): { compilerOptions: ts.CompilerOptions } {
-  const tsconfig = loadTsConfig(process.cwd());
-  if (tsconfig) {
+export async function loadTSConfig(): Promise<{
+  compilerOptions: ts.CompilerOptions;
+}> {
+  const tsconfigResult = await resolveTSConfig(process.cwd());
+  if (tsconfigResult?.tsconfig) {
+    const tsconfig = tsconfigResult.tsconfig;
     const parsed = tsconfig.data;
     delete parsed.compilerOptions.outDir;
     delete parsed.compilerOptions.outFile;
