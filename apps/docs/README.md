@@ -1,1 +1,1 @@
-# TypeSchema Docs
+# TypeSchema Documentation Site

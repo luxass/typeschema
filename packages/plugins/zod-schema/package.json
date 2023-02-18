@@ -1,5 +1,5 @@
 {
-  "name": "typeschema-plugin-zod-schema",
+  "name": "@typeschema/zod-plugin",
   "type": "module",
   "version": "0.0.1",
   "description": "Generate ZOD Schema from TypeSchema",

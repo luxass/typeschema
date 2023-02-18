@@ -1,5 +1,5 @@
 {
-  "name": "typeschema-plugin-json-schema",
+  "name": "@typeschema/json-plugin",
   "type": "module",
   "version": "0.0.1",
   "description": "Generate JSON Schema from TypeSchema",

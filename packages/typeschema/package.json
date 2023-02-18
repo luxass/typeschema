@@ -39,7 +39,8 @@
     "typeschema": "./dist/cli.js"
   },
   "files": [
-    "dist"
+    "dist",
+    "templates"
   ],
   "scripts": {
     "build": "tsup",
@@ -50,13 +51,16 @@
   "dependencies": {
     "@luxass/find-config": "^0.1.0",
     "@luxass/load-config": "^0.1.0",
+    "@luxass/neoman": "^0.1.6",
+    "cac": "^6.7.14",
     "chalk": "^5.2.0",
-    "commander": "^9.4.1",
+    "debug": "^4.3.4",
     "esbuild": "^0.16.17",
     "jsonc-parse": "^1.0.2",
     "tsconf-utils": "^1.1.0"
   },
   "devDependencies": {
-    "@typeschema/types": "workspace:*"
+    "@typeschema/types": "workspace:*",
+    "prompts": "^2.4.2"
   }
 }
