@@ -16,10 +16,6 @@ dist/
 .env
 .env.production
 .turbo
-
-
-
-
-
-
+.next
+next-env.d.ts
 
