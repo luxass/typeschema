@@ -1,17 +1,15 @@
 import { DocsThemeConfig } from "nextra-theme-docs";
-import React from "react";
 
 const config: DocsThemeConfig = {
-  logo: <span>My Project</span>,
+  logo: <span>TypeSchema</span>,
   project: {
-    link: "https://github.com/shuding/nextra-docs-template"
+    link: "https://github.com/luxass/typeschema"
   },
-  chat: {
-    link: "https://discord.com"
-  },
-  docsRepositoryBase: "https://github.com/shuding/nextra-docs-template",
+  docsRepositoryBase: "https://github.com/luxass/typeschema/apps/docs",
   footer: {
-    text: "Nextra Docs Template"
+    text: <span>
+      MIT {new Date().getFullYear()} © <a href="https://luxass.dev" target="_blank">Luas Nørgård</a>.
+    </span>,
   }
 };
 
