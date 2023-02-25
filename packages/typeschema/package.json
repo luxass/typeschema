@@ -51,7 +51,7 @@
   "dependencies": {
     "@luxass/find-config": "^0.1.0",
     "@luxass/load-config": "^0.1.0",
-    "@luxass/neoman": "^0.1.6",
+    "@luxass/neoman": "^0.2.0",
     "cac": "^6.7.14",
     "chalk": "^5.2.0",
     "debug": "^4.3.4",
