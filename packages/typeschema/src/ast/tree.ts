@@ -1,3 +1,1 @@
-export interface TypeSchemaTree {
-  
-}
+export interface TypeSchemaTree {}

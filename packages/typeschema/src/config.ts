@@ -5,6 +5,7 @@ import ts from "typescript";
 
 import { resolveConfig } from "@luxass/find-config";
 import { loadConfig } from "@luxass/load-config";
+
 import type { TypeSchemaConfig } from "./@types/typeschema";
 
 const DEFAULT_CONFIG_FILES: string[] = [
@@ -71,7 +72,7 @@ export async function loadTSConfig(): Promise<{
 
 export function initializeConfig() {
   if (existsSync("typeschema.config.ts")) {
-    console.log("typeschema.config.ts already exists");
+    console.warn("typeschema.config.ts already exists");
     return;
   }
 

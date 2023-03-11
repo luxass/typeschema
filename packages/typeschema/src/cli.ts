@@ -3,8 +3,7 @@ import { cac } from "cac";
 import chalk from "chalk";
 import prompts from "prompts";
 
-import { initializeConfig, loadTypeSchemaConfig } from "./config";
-
+import { loadTypeSchemaConfig } from "./config";
 import { createTypeSchema } from "./";
 
 declare global {
@@ -29,14 +28,13 @@ cli
         choices: templates.map((t) => ({ title: t, value: t })),
         name: "type",
         message: "What template do you want to generate?"
-      }).then((type) => type.type)
+      }).then((type) => type.type);
     }
     if (options.type) {
       if (!templates.includes(options.type)) {
         throw new TypeError(`Invalid template type: ${options.type}`);
       }
       console.log(`Initializing config for ${type}`);
-      
     } else {
       console.log("No template type selected");
     }

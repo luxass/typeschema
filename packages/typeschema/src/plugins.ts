@@ -17,7 +17,7 @@ export function createHooks(plugins?: readonly TypeSchemaPlugin[]): PluginHook {
   return {
     call: async <Hook extends keyof TypeSchemaPlugin["hooks"]>(
       hook: Hook,
-      params: HookParameters<Hook>
+      _params: HookParameters<Hook>
     ) => {
       for (const plugin of pluginMap.values()) {
         if (plugin.hooks[hook]) {
