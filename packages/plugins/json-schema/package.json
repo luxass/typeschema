@@ -1,23 +1,26 @@
 {
-  "name": "@typeschema/helpers",
+  "name": "@typeschema/json-plugin",
   "type": "module",
   "version": "0.0.1",
-  "description": "TypeSchema Helpers",
+  "description": "Generate JSON Schema from TypeSchema",
   "author": {
     "name": "Lucas Norgaard",
     "email": "lucasnrgaard@gmail.com",
     "url": "https://luxass.dev"
   },
   "license": "MIT",
-  "homepage": "https://github.com/luxass/typeschema/blob/main/packages/helpers#readme",
+  "homepage": "https://github.com/luxass/typeschema/blob/main/packages/plugins/json-schema#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/luxass/typeschema",
-    "directory": "packages/helpers"
+    "directory": "packages/plugins/json-schema"
   },
   "bugs": {
     "url": "https://github.com/luxass/typeschema/issues"
   },
+  "keywords": [
+    "typeschema-plugin"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -35,5 +38,8 @@
     "dev": "tsup --watch",
     "test": "vitest --run",
     "lint": "eslint --cache {src,tests}/**/*.ts"
+  },
+  "devDependencies": {
+    "typeschema": "workspace:*"
   }
 }

@@ -1,32 +1,15 @@
 {
   "name": "typeschema",
+  "type": "module",
   "version": "0.0.1",
   "description": "Generate JSON Schema, Zod Schemas from TypeScript types.",
-  "type": "module",
-  "bin": {
-    "typeschema": "./dist/cli.js"
+  "author": {
+    "name": "Lucas Norgaard",
+    "email": "lucasnrgaard@gmail.com",
+    "url": "https://luxass.dev"
   },
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs"
-    },
-    "./config": {
-      "types": "./dist/config.d.ts",
-      "import": "./dist/config.mjs"
-    }
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "test": "vitest"
-  },
+  "license": "MIT",
+  "homepage": "https://github.com/luxass/typeschema/blob/main/packages/typeschema#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/luxass/typeschema",
@@ -35,15 +18,48 @@
   "bugs": {
     "url": "https://github.com/luxass/typeschema/issues"
   },
-  "homepage": "https://github.com/luxass/typeschema/blob/main/packages/typeschema#readme",
-  "author": {
-    "name": "Lucas Norgaard",
-    "email": "lucasnrgaard@gmail.com",
-    "url": "https://luxass.dev"
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./config": {
+      "types": "./dist/config.d.ts",
+      "import": "./dist/config.js"
+    },
+    "./plugin": {
+      "types": "./dist/plugin.d.ts",
+      "import": "./dist/plugin.js"
+    }
   },
-  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "typeschema": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "templates"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest --run",
+    "lint": "eslint --cache {src,tests}/**/*.ts"
+  },
   "dependencies": {
-    "@typeschema/utils-internal": "workspace:*",
-    "commander": "^9.4.1"
+    "@luxass/find-config": "^0.1.0",
+    "@luxass/load-config": "^0.1.0",
+    "@luxass/neoman": "^0.2.0",
+    "cac": "^6.7.14",
+    "chalk": "^5.2.0",
+    "debug": "^4.3.4",
+    "esbuild": "^0.16.17",
+    "jsonc-parse": "^1.0.2",
+    "tsconf-utils": "^1.1.0"
+  },
+  "devDependencies": {
+    "prompts": "^2.4.2"
   }
 }

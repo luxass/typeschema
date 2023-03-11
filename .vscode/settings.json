@@ -1,0 +1,20 @@
+{
+  "import-cost.colors": {
+    "small": {
+      "dark": "hotpink",
+      "light": "hotpink"
+    },
+    "medium": {
+      "dark": "#7cc36e",
+      "light": "#7cc36e"
+    },
+    "large": {
+      "dark": "#d44e40",
+      "light": "#d44e40"
+    },
+    "extreme": {
+      "dark": "#d44e40",
+      "light": "#d44e40"
+    }
+  }
+}

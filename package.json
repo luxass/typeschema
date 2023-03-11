@@ -1,30 +1,41 @@
 {
   "name": "typeschema-monorepo",
+  "type": "module",
   "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=16"
+  },
+  "packageManager": "pnpm@7.18.0",
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "test": "turbo run test"
   },
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
+  "peerDependencies": {
+    "typescript": "^4.9.5"
+  },
   "devDependencies": {
-    "@luxass/eslint-config": "^1.0.8",
-    "@types/node": "^18.11.9",
-    "eslint": "^8.27.0",
-    "tsup": "^6.5.0",
-    "turbo": "^1.6.3",
-    "typescript": "^4.8.4",
-    "vitest": "^0.22.1"
+    "@luxass/eslint-config": "^3.0.1",
+    "@luxass/prettier-config": "^1.1.9",
+    "@types/node": "^18.11.17",
+    "@types/prompts": "^2.4.2",
+    "eslint": "^8.36.0",
+    "prettier": "^2.8.4",
+    "tsup": "^6.6.3",
+    "turbo": "^1.8.3",
+    "typeschema": "workspace:*",
+    "typescript": "^4.9.5",
+    "vitest": "^0.29.2"
   },
-  "license": "MIT",
-  "engines": {
-    "node": ">=16"
-  },
-  "packageManager": "pnpm@7.18.0"
+  "pnpm": {
+    "overrides": {
+      "typeschema": "workspace:*"
+    }
+  }
 }
