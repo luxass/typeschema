@@ -12,6 +12,7 @@ const DEFAULT_CONFIG_FILES: string[] = [
   "typeschema.config.js",
   "typeschema.config.cjs",
   "typeschema.config.mjs",
+  "typeschema.config",
   "typeschema.json",
   "package.json"
 ];

@@ -1,6 +1,6 @@
 # TypeSchema
 
-> Convert TypeScript Types to What you want. (e.g. JSON Schema, Zod Schemas)
+> Convert TypeScript Types to What ever you decide. (e.g. JSON Schema, Zod Schemas)
 
 ## Installation
 

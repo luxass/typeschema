@@ -1,4 +1,10 @@
-import type { TypeSchemaConfig } from "./config";
+import type ts from "typescript";
+
+export interface TypeSchemaConfig {
+  plugins?: TypeSchemaPlugin[];
+  tsconfig?: string | ts.CompilerOptions;
+  entry: string[];
+}
 
 export type HookParameters<
   Hook extends keyof TypeSchemaPlugin["hooks"],
@@ -15,4 +21,16 @@ export interface TypeSchemaPlugin {
     ast?: (ctx: {}) => void | Promise<void>;
     transform?: (ctx: {}) => void | Promise<void>;
   };
+}
+
+export interface TypeSchemaContext {
+  config: TypeSchemaConfig;
+  hooks: PluginHook;
+}
+
+export interface PluginHook {
+  call: <Hook extends keyof TypeSchemaPlugin["hooks"]>(
+    hook: Hook,
+    params: HookParameters<Hook>
+  ) => Promise<void>;
 }

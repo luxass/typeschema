@@ -5,7 +5,7 @@ import prompts from "prompts";
 
 import { initializeConfig, loadTypeSchemaConfig } from "./config";
 
-import { createTypeSchema } from "./index";
+import { createTypeSchema } from "./";
 
 declare global {
   const __VERSION__: string;
