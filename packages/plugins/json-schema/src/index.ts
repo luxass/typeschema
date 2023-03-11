@@ -2,9 +2,11 @@ import type { TypeSchemaPlugin } from "typeschema/plugin";
 
 const JsonSchemaPlugin: TypeSchemaPlugin = {
   name: "json-schema",
-  setup(ctx) {
-    // ctx.ast.match()
-    // ctx.ast.
+  hooks: {
+    config: (ctx) => {
+      // Override the entry point
+      ctx.config.entry = ["src/index.ts"];
+    }
   }
 };
 

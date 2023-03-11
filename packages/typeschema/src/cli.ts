@@ -66,31 +66,3 @@ cli.help();
 cli.version(__VERSION__);
 
 cli.parse();
-
-// program
-//   .name("typeschema")
-//   .version(__VERSION__)
-//   .option("-c, --config <path>", "path to config file")
-//   .command("init")
-//   .action(async () => {
-//     console.log("init");
-//   })
-//   .action(async () => {
-//     const opts = program.opts();
-// try {
-//   const config = await loadTypeSchemaConfig(process.cwd(), opts.config);
-//   if (!config) {
-//     throw new TypeError("Could not load config");
-//   }
-//   await createTypeSchema(config);
-// } catch (e) {
-//   process.exitCode = 1;
-//   console.error(
-//     `\n${chalk.red(chalk.bold(chalk.inverse(" Unhandled Error ")))}`
-//   );
-//   console.error(e);
-//   console.error("\n\n");
-// }
-//   });
-
-// program.parse(process.argv);

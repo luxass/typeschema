@@ -2,8 +2,11 @@ import type { TypeSchemaPlugin } from "typeschema/plugin";
 
 const ZodSchemaPlugin: TypeSchemaPlugin = {
   name: "zod-schema",
-  setup(_ctx) {
-
+  hooks: {
+    config: (ctx) => {
+      // Override the entry point
+      ctx.config.entry = ["src/index.ts"];
+    }
   }
 };
 
