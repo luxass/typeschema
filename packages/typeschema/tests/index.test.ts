@@ -1,11 +1,6 @@
-import { describe, expect, it } from "vitest";
+import { expect, test } from "vitest";
 
-
-
-describe("create", () => {
-  it("foo", () => {
-    expect(1 + 1).toEqual(2);
-    expect(true).to.be.true;
-  });
-
+test("foo", () => {
+  expect(1 + 1).toEqual(2);
+  expect(true).to.be.true;
 });
