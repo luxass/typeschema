@@ -1,1 +1,1 @@
-export { defineConfig } from './dist/config.js'
+export { defineTypeSchemaConfig } from './dist/config.js'

@@ -5,7 +5,7 @@ import ts from "typescript";
 
 import { resolveConfig } from "@luxass/find-config";
 import { loadConfig } from "@luxass/load-config";
-import type { TypeSchemaConfig } from "@typeschema/types";
+import type { TypeSchemaConfig } from "./@types/typeschema";
 
 const DEFAULT_CONFIG_FILES: string[] = [
   "typeschema.config.ts",
@@ -24,7 +24,7 @@ const DEFAULT_CONFIG: TypeSchemaConfig = {
 export async function loadTypeSchemaConfig(
   cwd: string,
   configFile?: string
-): Promise<ReturnType<typeof defineConfig>> {
+): Promise<ReturnType<typeof defineTypeSchemaConfig>> {
   const resolvedConfig = await resolveConfig({
     files: configFile ? [configFile] : DEFAULT_CONFIG_FILES,
     cwd,
@@ -75,7 +75,7 @@ export function initializeConfig() {
     return;
   }
 
-  const content = `import { defineConfig } from "typeschema/config";\n\nexport default defineConfig(${JSON.stringify(
+  const content = `import { defineTypeSchemaConfig } from "typeschema/config";\n\nexport default defineTypeSchemaConfig(${JSON.stringify(
     DEFAULT_CONFIG,
     null,
     2
@@ -84,4 +84,4 @@ export function initializeConfig() {
   writeFileSync("typeschema.config.ts", content);
 }
 
-export const defineConfig = (config: TypeSchemaConfig) => config;
+export const defineTypeSchemaConfig = (config: TypeSchemaConfig) => config;

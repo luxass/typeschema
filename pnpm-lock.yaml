@@ -1,5 +1,8 @@
 lockfileVersion: 5.4
 
+overrides:
+  typeschema: workspace:*
+
 importers:
 
   .:
@@ -12,6 +15,7 @@ importers:
       prettier: ^2.8.3
       tsup: ^6.6.3
       turbo: ^1.8.2
+      typeschema: workspace:*
       typescript: ^4.9.5
       vitest: ^0.25.8
     devDependencies:
@@ -23,6 +27,7 @@ importers:
       prettier: 2.8.3
       tsup: 6.6.3_typescript@4.9.5
       turbo: 1.8.2
+      typeschema: link:packages/typeschema
       typescript: 4.9.5
       vitest: 0.25.8
 

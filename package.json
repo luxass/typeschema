@@ -30,7 +30,13 @@
     "prettier": "^2.8.3",
     "tsup": "^6.6.3",
     "turbo": "^1.8.2",
+    "typeschema": "workspace:*",
     "typescript": "^4.9.5",
     "vitest": "^0.25.8"
+  },
+  "pnpm": {
+    "overrides": {
+      "typeschema": "workspace:*"
+    }
   }
 }

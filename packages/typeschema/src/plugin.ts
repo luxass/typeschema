@@ -1,2 +1,2 @@
-export type { TypeSchemaPlugin, PluginContext, TransformContext, AstContext } from "@typeschema/types"
+export type { TypeSchemaPlugin } from "./@types/typeschema";
 

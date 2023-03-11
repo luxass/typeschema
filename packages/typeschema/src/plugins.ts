@@ -1,5 +1,8 @@
-import type { TypeSchemaPlugin } from "../plugin";
-import type { PluginHook } from "./@types/typeschema";
+import type {
+  HookParameters,
+  PluginHook,
+  TypeSchemaPlugin
+} from "./@types/typeschema";
 
 export function createHooks(plugins?: readonly TypeSchemaPlugin[]): PluginHook {
   const pluginMap = new Map<string, TypeSchemaPlugin>();
@@ -12,10 +15,13 @@ export function createHooks(plugins?: readonly TypeSchemaPlugin[]): PluginHook {
   }
 
   return {
-    call: async (hook, params) => {
+    call: async <Hook extends keyof TypeSchemaPlugin["hooks"]>(
+      hook: Hook,
+      params: HookParameters<Hook>
+    ) => {
       for (const plugin of pluginMap.values()) {
         if (plugin.hooks[hook]) {
-          await plugin.hooks[hook](params);
+          console.log(`Calling ${hook} on ${plugin.name}`);
         }
       }
     }
