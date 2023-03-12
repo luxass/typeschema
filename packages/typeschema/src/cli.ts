@@ -43,7 +43,9 @@ cli
           `Template ${chalk.bold(type)} doesn't exist.`
         )}\n\n${chalk.white(
           `Available templates: ${chalk.bold(
-            templates.map((t) => chalk.green(chalk.underline(t))).join(chalk.white(", "))
+            templates
+              .map((t) => chalk.green(chalk.underline(t)))
+              .join(chalk.white(", "))
           )}`
         )}\n`
       );
@@ -53,21 +55,18 @@ cli
   });
 
 cli
-  .command("run", "run typeschema")
-  .option("-w, --watch", "[boolean] rebuilds when modules have changed on disk")
-  .action(async (options: RunFlags) => {
+  .command("[root]", "run typeschema")
+  .alias("run")
+  .option("-w, --watch", "[boolean] rebuilds when modules have changed on disk", {
+    default: false
+  })
+  .action(async (_, options: RunFlags) => {
     const { createTypeSchema } = await import("./");
     try {
-      console.log(options);
-
-      // const { config, path } = await loadTypeSchemaConfig(
-      //   process.cwd(),
-      //   options.config
-      // );
-      // if (!config) {
-      //   throw new TypeError("Could not load config");
-      // }
-      // await createTypeSchema(config, path);
+      await createTypeSchema({
+        configPath: options.config,
+        watch: options.watch
+      });
     } catch (e) {
       process.exitCode = 1;
       console.error(

@@ -1,7 +1,7 @@
 import type ts from "typescript";
 
 export interface RunFlags {
-  watch?: boolean;
+  watch: boolean;
   config?: string;
 }
 
