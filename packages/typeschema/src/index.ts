@@ -4,10 +4,12 @@ import { fileURLToPath } from "node:url";
 import { globby } from "globby";
 import ts from "typescript";
 
+import { parseFile } from "@swc/core";
 import type { TypeSchemaConfig, TypeSchemaContext } from "./@types/typeschema";
 import type { TypeSchemaTree } from "./ast/tree";
 import { DEFAULT_TSCONFIG, loadTSConfig, loadTypeSchemaConfig } from "./config";
 import { createHooks } from "./plugins";
+import { Traverse } from "./ast/traverse";
 
 export interface TypeSchemaResult {
   ast: TypeSchemaTree;
@@ -20,10 +22,11 @@ export async function createTypeSchema({
   configPath?: string;
   watch: boolean;
 }): Promise<TypeSchemaResult> {
-  const { config, path: resolvedConfigPath } = await loadTypeSchemaConfig(process.cwd(), configPath);
+  const { config, path: resolvedConfigPath } = await loadTypeSchemaConfig(
+    process.cwd(),
+    configPath
+  );
 
-  console.log(config);
-  
   const ctx: TypeSchemaContext = {
     config,
     hooks: createHooks(config.plugins)
@@ -33,6 +36,36 @@ export async function createTypeSchema({
     config,
     watch
   });
+
+  const inputFiles = await globby(config.entry, {
+    absolute: true,
+    cwd: path.dirname(resolvedConfigPath)
+  });
+
+  console.log(inputFiles);
+
+  for await (const file of inputFiles) {
+    const resolvedPath = path.resolve(file);    
+
+    const swcAst = await parseFile(resolvedPath, {
+      syntax: "typescript",
+      comments: true,
+      script: true,
+      
+    });
+
+    const { Visitor } = await import("@swc/core/Visitor.js").then((mod) => mod)
+    
+
+
+    console.log(Visitor);
+    
+    const visitor = new Traverse();
+
+    const gg = visitor.visitModule(swcAst);
+    console.log(gg);
+    
+  }
 
   // let tsconfig: ts.CompilerOptions = {};
   // if (typeof config.tsconfig === "string" || !config.tsconfig) {
