@@ -1,5 +1,14 @@
 import type ts from "typescript";
 
+export interface RunFlags {
+  watch?: boolean;
+  config?: string;
+}
+
+export interface InitFlags {
+  type?: string;
+}
+
 export interface TypeSchemaConfig {
   plugins?: TypeSchemaPlugin[];
   tsconfig?: string | ts.CompilerOptions;
@@ -7,20 +16,13 @@ export interface TypeSchemaConfig {
 }
 
 export type HookParameters<
-  Hook extends keyof TypeSchemaPlugin["hooks"],
-  Fn = TypeSchemaPlugin["hooks"][Hook]
+  Hook extends keyof PluginHooks,
+  Fn = PluginHooks[Hook]
 > = Fn extends (...args: any) => any ? Parameters<Fn>[0] : never;
 
 export interface TypeSchemaPlugin {
   name: string;
-  hooks: {
-    config?: (ctx: {
-      config: TypeSchemaConfig;
-      mode: "dev" | "build";
-    }) => void | Promise<void>;
-    ast?: (ctx: {}) => void | Promise<void>;
-    transform?: (ctx: {}) => void | Promise<void>;
-  };
+  hooks: PluginHooks;
 }
 
 export interface TypeSchemaContext {
@@ -28,8 +30,23 @@ export interface TypeSchemaContext {
   hooks: PluginHook;
 }
 
+export interface PluginHooks {
+  config?: (ctx: {
+    config: TypeSchemaConfig;
+    watch: boolean;
+  }) => void | Promise<void>;
+  ast?: (ctx: { config: TypeSchemaConfig; ast: {} }) => void | Promise<void>;
+  transform?: (ctx: {
+    config: TypeSchemaConfig;
+    transformers: {};
+  }) => void | Promise<void>;
+
+  // TODO: Add more hooks
+  // e.g api like rollup has.
+}
+
 export interface PluginHook {
-  call: <Hook extends keyof TypeSchemaPlugin["hooks"]>(
+  call: <Hook extends keyof PluginHooks>(
     hook: Hook,
     params: HookParameters<Hook>
   ) => Promise<void>;

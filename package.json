@@ -23,7 +23,7 @@
   "devDependencies": {
     "@luxass/eslint-config": "^3.0.1",
     "@luxass/prettier-config": "^1.1.9",
-    "@types/node": "^18.11.17",
+    "@types/node": "^18.11.18",
     "@types/prompts": "^2.4.2",
     "eslint": "^8.36.0",
     "prettier": "^2.8.4",

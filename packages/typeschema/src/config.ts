@@ -25,7 +25,10 @@ const DEFAULT_CONFIG: TypeSchemaConfig = {
 export async function loadTypeSchemaConfig(
   cwd: string,
   configFile?: string
-): Promise<ReturnType<typeof defineTypeSchemaConfig>> {
+): Promise<{
+  config: ReturnType<typeof defineTypeSchemaConfig>;
+  path: string;
+}> {
   const resolvedConfig = await resolveConfig({
     files: configFile ? [configFile] : DEFAULT_CONFIG_FILES,
     cwd,
@@ -42,31 +45,30 @@ export async function loadTypeSchemaConfig(
     cwd
   });
 
-  return config;
+  return { config, path: resolvedConfig.path };
 }
 
-export const DEFAULT_TSCONFIG: { compilerOptions: ts.CompilerOptions } = {
-  compilerOptions: {
-    target: ts.ScriptTarget.ESNext,
-    module: ts.ModuleKind.ESNext
-  }
+export const DEFAULT_TSCONFIG: ts.CompilerOptions = {
+  target: ts.ScriptTarget.ESNext,
+  module: ts.ModuleKind.ESNext
 };
 
-export async function loadTSConfig(): Promise<{
+export async function loadTSConfig(cwd: string): Promise<{
+  path?: string;
   compilerOptions: ts.CompilerOptions;
 }> {
-  const tsconfigResult = await resolveTSConfig(process.cwd());
+  const tsconfigResult = await resolveTSConfig(cwd);
+
   if (tsconfigResult?.tsconfig) {
-    const tsconfig = tsconfigResult.tsconfig;
-    const parsed = tsconfig.data;
-    delete parsed.compilerOptions.outDir;
-    delete parsed.compilerOptions.outFile;
-    delete parsed.compilerOptions.declaration;
-    delete parsed.compilerOptions.declarationDir;
-    delete parsed.compilerOptions.declarationMap;
-    return parsed;
+    return {
+      compilerOptions: tsconfigResult.tsconfig.compilerOptions,
+      path: tsconfigResult.path
+    };
   } else {
-    return DEFAULT_TSCONFIG;
+    return {
+      compilerOptions: DEFAULT_TSCONFIG,
+      path: undefined
+    };
   }
 }
 

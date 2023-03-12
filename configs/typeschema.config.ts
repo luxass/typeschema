@@ -11,5 +11,6 @@ export default defineTypeSchemaConfig({
         }
       }
     }
-  ]
+  ],
+  tsconfig: "./tsconfig.json"
 });

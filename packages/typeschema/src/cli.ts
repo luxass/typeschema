@@ -1,28 +1,32 @@
 #!/usr/bin/env node
-import { cac } from "cac";
+import { CAC, cac } from "cac";
 import chalk from "chalk";
 import prompts from "prompts";
 
-import { loadTypeSchemaConfig } from "./config";
-import { createTypeSchema } from "./";
+import { InitFlags, RunFlags } from "./@types/typeschema";
 
 declare global {
   const __VERSION__: string;
 }
 
+// Add support for something similar to astro integrations or nuxt modules
 const templates = ["json-schema", "zod-schema", "zod-and-json-schema"];
 
 const cli = cac("typeschema");
 
 cli.option("-c, --config <path>", "[string] path to config file");
 
+cli.options = {
+  dinMor: "aa"
+};
+
 cli
   .command("init", "create a new typeschema config file")
-  .option("-t, --type [type]", "template you want to generate")
-  .action(async (options: { type: string }) => {
+  .option("--type <type>", "template you want to generate")
+  .action(async (options: InitFlags) => {
     let { type } = options;
 
-    if (!options.type) {
+    if (!type) {
       type = await prompts({
         type: "select",
         choices: templates.map((t) => ({ title: t, value: t })),
@@ -30,26 +34,40 @@ cli
         message: "What template do you want to generate?"
       }).then((type) => type.type);
     }
-    if (options.type) {
-      if (!templates.includes(options.type)) {
-        throw new TypeError(`Invalid template type: ${options.type}`);
-      }
-      console.log(`Initializing config for ${type}`);
+
+    if (!templates.includes(type!)) {
+      console.error(
+        `\n${chalk.red(
+          chalk.bold(chalk.inverse(" Invalid template "))
+        )}\n${chalk.red(
+          `Template ${chalk.bold(type)} doesn't exist.`
+        )}\n\n${chalk.white(
+          `Available templates: ${chalk.bold(
+            templates.map((t) => chalk.green(chalk.underline(t))).join(chalk.white(", "))
+          )}`
+        )}\n`
+      );
     } else {
-      console.log("No template type selected");
+      console.log(`Initializing config for ${type}`);
     }
   });
 
 cli
-  .command("", "build typeschema")
+  .command("run", "run typeschema")
   .option("-w, --watch", "[boolean] rebuilds when modules have changed on disk")
-  .action(async (options: { watch?: boolean; config?: string }) => {
+  .action(async (options: RunFlags) => {
+    const { createTypeSchema } = await import("./");
     try {
-      const config = await loadTypeSchemaConfig(process.cwd(), options.config);
-      if (!config) {
-        throw new TypeError("Could not load config");
-      }
-      await createTypeSchema(config);
+      console.log(options);
+
+      // const { config, path } = await loadTypeSchemaConfig(
+      //   process.cwd(),
+      //   options.config
+      // );
+      // if (!config) {
+      //   throw new TypeError("Could not load config");
+      // }
+      // await createTypeSchema(config, path);
     } catch (e) {
       process.exitCode = 1;
       console.error(
