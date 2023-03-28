@@ -22,8 +22,9 @@ export function createHooks(plugins?: readonly TypeSchemaPlugin[]): PluginHook {
     ) => {
       for (const plugin of pluginMap.values()) {
         if (plugin.hooks[hook]) {
+          console.log(`Calling ${hook} hook for ${plugin.name} plugin`);
           // TODO: Fix this any cast
-          await plugin.hooks["config"]!(params as any);
+          await plugin.hooks[hook]!(params as any);
         }
       }
     }

@@ -1,15 +1,14 @@
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
 import { globby } from "globby";
-import ts from "typescript";
 
-import { parseFile } from "@swc/core";
-import type { TypeSchemaConfig, TypeSchemaContext } from "./@types/typeschema";
-import type { TypeSchemaTree } from "./ast/tree";
-import { DEFAULT_TSCONFIG, loadTSConfig, loadTypeSchemaConfig } from "./config";
-import { createHooks } from "./plugins";
+import { parseFile, print } from "@swc/core";
+
+import type { TypeSchemaContext } from "./@types/typeschema";
 import { Traverse } from "./ast/traverse";
+import type { TypeSchemaTree } from "./ast/tree";
+import { loadTypeSchemaConfig } from "./config";
+import { createHooks } from "./plugins";
 
 export interface TypeSchemaResult {
   ast: TypeSchemaTree;
@@ -45,26 +44,30 @@ export async function createTypeSchema({
   console.log(inputFiles);
 
   for await (const file of inputFiles) {
-    const resolvedPath = path.resolve(file);    
+    const resolvedPath = path.resolve(file);
 
     const swcAst = await parseFile(resolvedPath, {
       syntax: "typescript",
       comments: true,
-      script: true,
-      
+      script: true
     });
 
-    const { Visitor } = await import("@swc/core/Visitor.js").then((mod) => mod)
-    
-
+    const { Visitor } = await import("@swc/core/Visitor.js").then((mod) => mod);
 
     console.log(Visitor);
-    
+
     const visitor = new Traverse();
 
-    const gg = visitor.visitModule(swcAst);
-    console.log(gg);
-    
+    const visitedModule = visitor.visitModule(swcAst);
+    console.log(visitedModule);
+
+    const output = await print(visitedModule, {
+      jsc: {
+        target: "esnext"
+      }
+    });
+
+    console.log(output.code);
   }
 
   // let tsconfig: ts.CompilerOptions = {};
