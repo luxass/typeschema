@@ -1,11 +1,10 @@
 import path from "node:path";
 
+import { transformFileAsync } from "@babel/core";
 import { globby } from "globby";
-
-import { parseFile, print } from "@swc/core";
+import ts, { ScriptTarget } from "typescript";
 
 import type { TypeSchemaContext } from "./@types/typeschema";
-import { Traverse } from "./ast/traverse";
 import type { TypeSchemaTree } from "./ast/tree";
 import { loadTypeSchemaConfig } from "./config";
 import { createHooks } from "./plugins";
@@ -41,34 +40,42 @@ export async function createTypeSchema({
     cwd: path.dirname(resolvedConfigPath)
   });
 
-  console.log(inputFiles);
+  const program = ts.createProgram({
+    rootNames: inputFiles,
+    options: {
+      target: ts.ScriptTarget.ESNext,
+      module: ts.ModuleKind.ESNext,
+      lib: ["ESNext"],
+      moduleResolution: ts.ModuleResolutionKind.Node10,
+      esModuleInterop: true,
+      strict: true,
+      declaration: true,
+      noUnusedLocals: false,
+      useUnknownInCatchVariables: false,
+      resolveJsonModule: true,
+      preserveSymlinks: true,
+      forceConsistentCasingInFileNames: true,
+      rootDir: "./src",
+      outDir: "./dist"
+    }
+  });
+  const rootFileNames = program.getRootFileNames();
 
-  for await (const file of inputFiles) {
-    const resolvedPath = path.resolve(file);
+  const rootSourceFiles = program
+    .getSourceFiles()
+    .filter((sourceFile) => rootFileNames.includes(sourceFile.fileName));
 
-    const swcAst = await parseFile(resolvedPath, {
-      syntax: "typescript",
-      comments: true,
-      script: true
-    });
-
-    const { Visitor } = await import("@swc/core/Visitor.js").then((mod) => mod);
-
-    console.log(Visitor);
-
-    const visitor = new Traverse();
-
-    const visitedModule = visitor.visitModule(swcAst);
-    console.log(visitedModule);
-
-    const output = await print(visitedModule, {
-      jsc: {
-        target: "esnext"
-      }
-    });
-
-    console.log(output.code);
+  for (const sourceFile of rootSourceFiles) {
+    console.log(sourceFile.fileName);
   }
+  // const code = await transformFileAsync(inputFiles[0], {
+  //   cwd: path.dirname(inputFiles[0]),
+  //   parserOpts: {
+  //     plugins: ["typescript"]
+  //   }
+  // });
+
+  // console.log("CODE", code);
 
   // let tsconfig: ts.CompilerOptions = {};
   // if (typeof config.tsconfig === "string" || !config.tsconfig) {

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-import { CAC, cac } from "cac";
+import { cac } from "cac";
 import chalk from "chalk";
 import prompts from "prompts";
 
-import { InitFlags, RunFlags } from "./@types/typeschema";
+import type { InitFlags, RunFlags } from "./@types/typeschema";
 
 declare global {
   const __VERSION__: string;
@@ -57,9 +57,13 @@ cli
 cli
   .command("[root]", "run typeschema")
   .alias("run")
-  .option("-w, --watch", "[boolean] rebuilds when modules have changed on disk", {
-    default: false
-  })
+  .option(
+    "-w, --watch",
+    "[boolean] rebuilds when modules have changed on disk",
+    {
+      default: false
+    }
+  )
   .action(async (_, options: RunFlags) => {
     const { createTypeSchema } = await import("./");
     try {

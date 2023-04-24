@@ -1,2 +1,5 @@
-export type Names = "John" | "Jane" | "Jack";
+import {
+  Names
+} from "./lol"
+
 export type Hello = `Hello, ${Names}!`

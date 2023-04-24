@@ -10,7 +10,7 @@ export default defineConfig({
   dts: true,
   clean: true,
   treeshake: true,
-  external: ["typescript", "prompts", "@swc/core"],
+  external: ["typescript", "prompts"],
   define: {
     __VERSION__: `'${version}'`
   }
